@@ -3,7 +3,6 @@
 const mongoose = require("mongoose");
 const cities = require("./cities");
 const Campground = require("../models/campground");
-const campground = require("../models/campground");
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 //Importing Mongoose:
 mongoose.connect("mongodb://127.0.0.1:27017/TheCampingSpot", {
