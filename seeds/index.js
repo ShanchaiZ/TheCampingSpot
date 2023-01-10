@@ -27,7 +27,11 @@ mongoose.connect("mongodb://127.0.0.1:27017/TheCampingSpot", {
 const sample = array => array[Math.floor(Math.random() * array.length)];
 //Explanation: random number * length of the array, then Math.floor the result. then access that floored number from the array. This will be used to assign a random title to a random location
 
-//LOGIC: Seeding the database with cities and states from the seeds array:
+
+//SEEDING DATABASE LOGIC: 
+//1. Seeding the database with location using cities and states from the cities seeds array
+//2. Seeding the database with title of the location using descriptors and places from the helperSeeds array
+
 const seedDB = async () => {
     await Campground.deleteMany({});
     //looping the seed data 50 times and random 1000 because there are 1000 seeded cities in the cities seed array.
@@ -42,5 +46,8 @@ const seedDB = async () => {
         await camp.save();
     }
 }
-seedDB();
-//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Exexutes the seeding in database THEN closes the Database connection:
+seedDB().then(() => {
+    mongoose.connection.close();
+});
