@@ -25,8 +25,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/TheCampingSpot", {
 const app = express();
 
 
-
-
 //Middlewares:
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 app.set("view engine", "ejs");
@@ -39,12 +37,23 @@ app.get("/", (req, res) => {
     res.render("home");
 })
 
-//testing: Creation of a new campground using a route:
-app.get("/makecampground", async (req, res) => {
-    const camp = new Campground({ title: "My Backyard", description: "Starter Camping Experience!" });
-    await camp.save();
-    res.send(camp);
+
+//Index Route:
+app.get("/campgrounds", async (req, res) => {
+    const campgrounds = await Campground.find({});
+    res.render("campgrounds/index", { campgrounds });
 })
+
+
+
+// //testing: Creation of a new campground using a route:
+// app.get("/makecampground", async (req, res) => {
+//     const camp = new Campground({ title: "My Backyard", description: "Starter Camping Experience!" });
+//     await camp.save();
+//     res.send(camp);
+// })
+
+
 
 // APP IS LISTENING ON PORT:
 //=============================================================================================
