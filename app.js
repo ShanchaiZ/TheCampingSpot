@@ -74,9 +74,16 @@ app.get("/campgrounds/:id/edit", async (req, res) => {
 
 
 //PUT ROUTE: Updating Campgrounds: submitting the Editing form using methodOverride
-app.put("/campgrounds/:id", (req, res) => {
-    res.send("MethodOveride Working! Able to PUT Route in html forms using ?_method!")
-})
+app.put("/campgrounds/:id", async (req, res) => {
+    const { id } = req.params;
+    //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
+    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground } , {new : true});
+    res.redirect(`/campgrounds/${campground._id}`);
+});
+
+
+
+
 
 // //testing: Creation of a new campground using a route:
 // app.get("/makecampground", async (req, res) => {
