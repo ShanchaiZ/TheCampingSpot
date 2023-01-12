@@ -38,13 +38,16 @@ app.get("/", (req, res) => {
 })
 
 
-//Index Route:
+//Index Route: lists all the campgrounds available:
 app.get("/campgrounds", async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render("campgrounds/index", { campgrounds });
 })
 
-
+//Show Route: details of all campgrounds:
+app.get("/campgrounds/:id", async (req, res) => {
+    res.render("campgrounds/show");
+})
 
 // //testing: Creation of a new campground using a route:
 // app.get("/makecampground", async (req, res) => {
