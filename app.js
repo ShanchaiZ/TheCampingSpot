@@ -46,7 +46,8 @@ app.get("/campgrounds", async (req, res) => {
 
 //Show Route: details of all campgrounds:
 app.get("/campgrounds/:id", async (req, res) => {
-    res.render("campgrounds/show");
+    const campground = await Campground.findById(req.params.id);
+    res.render("campgrounds/show", { campground });
 })
 
 // //testing: Creation of a new campground using a route:
