@@ -77,11 +77,16 @@ app.get("/campgrounds/:id/edit", async (req, res) => {
 app.put("/campgrounds/:id", async (req, res) => {
     const { id } = req.params;
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
-    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground } , {new : true});
+    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
     res.redirect(`/campgrounds/${campground._id}`);
 });
 
-
+//DELETE ROUTE: 
+app.delete("/campgrounds/:id", async (req, res) => {
+    const { id } = req.params;
+    await Campground.findByIdAndDelete(id);
+    res.redirect("/campgrounds");
+});
 
 
 
