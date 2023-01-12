@@ -30,6 +30,7 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(express.urlencoded({ extended: true })); //req.body parser!
 
 //Routes:
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -49,6 +50,12 @@ app.get("/campgrounds/new", (req, res) => {
     res.render("campgrounds/new");
 });
 
+//Post Route: Where the form will be submitted after submitting the Form Creation
+app.post("/campgrounds", async (req, res) => {
+    res.send(req.body);
+});
+
+
 //Show Route: details of all campgrounds:
 app.get("/campgrounds/:id", async (req, res) => {
     const campground = await Campground.findById(req.params.id);
@@ -56,11 +63,6 @@ app.get("/campgrounds/:id", async (req, res) => {
 });
 
 
-
-
-
-
-//Post Route: Create a Campground
 
 
 // //testing: Creation of a new campground using a route:
