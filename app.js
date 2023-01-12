@@ -3,6 +3,7 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
 const Campground = require("./models/campground");
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -21,7 +22,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/TheCampingSpot", {
         console.log(err);
     });
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-
 const app = express();
 
 
@@ -31,6 +31,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true })); //req.body parser!
+app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE in addition to GET/POST!
 
 //Routes:
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -65,7 +66,6 @@ app.get("/campgrounds/:id", async (req, res) => {
 });
 
 
-
 //GET ROUTE: Updating Campgrounds: creating an Editing form
 app.get("/campgrounds/:id/edit", async (req, res) => {
     const campground = await Campground.findById(req.params.id);
@@ -73,8 +73,10 @@ app.get("/campgrounds/:id/edit", async (req, res) => {
 });
 
 
-//Updating Campgrounds: submitting the Editing form
-
+//PUT ROUTE: Updating Campgrounds: submitting the Editing form using methodOverride
+app.put("/campgrounds/:id", (req, res) => {
+    res.send("MethodOveride Working! Able to PUT Route in html forms using ?_method!")
+})
 
 // //testing: Creation of a new campground using a route:
 // app.get("/makecampground", async (req, res) => {

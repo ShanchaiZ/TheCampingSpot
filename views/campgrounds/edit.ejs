@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Edit A Campground!</h1>
-    <form action="/campgrounds" method="POST">
+    <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST">
         <div>
             <label for="title">Title</label>
             <input type="text" id="title" name="campground[title]" value="<%= campground.title %> " placeholder="Enter Campground Title!">
