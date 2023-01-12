@@ -52,7 +52,9 @@ app.get("/campgrounds/new", (req, res) => {
 
 //Post Route: Where the form will be submitted after submitting the Form Creation
 app.post("/campgrounds", async (req, res) => {
-    res.send(req.body);
+    const campground = new Campground(req.body.campground);
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
 });
 
 
