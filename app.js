@@ -66,6 +66,15 @@ app.get("/campgrounds/:id", async (req, res) => {
 
 
 
+//GET ROUTE: Updating Campgrounds: creating an Editing form
+app.get("/campgrounds/:id/edit", async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    res.render("campgrounds/edit", { campground });
+});
+
+
+//Updating Campgrounds: submitting the Editing form
+
 
 // //testing: Creation of a new campground using a route:
 // app.get("/makecampground", async (req, res) => {
