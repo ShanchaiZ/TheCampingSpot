@@ -37,11 +37,15 @@ const seedDB = async () => {
     //looping the seed data 50 times and random 1000 because there are 1000 seeded cities in the cities seed array.
     for (let i = 0; i < 50; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
+        const price = Math.floor(Math.random() * 30) + 10;
         const camp = new Campground({
             //Location = (random city from the 1000 cities array and .city is the property we want.) + (random State from 1000 cities array and the random State property)
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             //Title of the location: from seedHelpers array  --> random sample descriptor 
-            title: `${sample(descriptors)} ${sample(places)}`
+            title: `${sample(descriptors)} ${sample(places)}`,
+            image: "https://source.unsplash.com/collection/483251/800x600",
+            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam voluptatum, odio sed explicabo ut, dignissimos, sit reiciendis dolores aspernatur ipsa placeat itaque ad error repudiandae repellendus rem natus!",
+            price
         });
         await camp.save();
     }
