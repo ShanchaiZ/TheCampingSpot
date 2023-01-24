@@ -45,10 +45,10 @@ app.get("/", (req, res) => {
 
 
 //Index Route: lists all the campgrounds available:
-app.get("/campgrounds", async (req, res) => {
+app.get("/campgrounds", catchAsync(async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render("campgrounds/index", { campgrounds });
-});
+}));
 
 //Get Route: Form Creation
 app.get("/campgrounds/new", (req, res) => {
@@ -64,33 +64,33 @@ app.post("/campgrounds", catchAsync(async (req, res, next) => {
 
 
 //Show Route: details of all campgrounds:
-app.get("/campgrounds/:id", async (req, res) => {
+app.get("/campgrounds/:id", catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     res.render("campgrounds/show", { campground });
-});
+}));
 
 
 //GET ROUTE: Updating Campgrounds: creating an Editing form
-app.get("/campgrounds/:id/edit", async (req, res) => {
+app.get("/campgrounds/:id/edit", catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     res.render("campgrounds/edit", { campground });
-});
+}));
 
 
 //PUT ROUTE: Updating Campgrounds: submitting the Editing form using methodOverride
-app.put("/campgrounds/:id", async (req, res) => {
+app.put("/campgrounds/:id", catchAsync(async (req, res) => {
     const { id } = req.params;
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
     res.redirect(`/campgrounds/${campground._id}`);
-});
+}));
 
 //DELETE ROUTE: 
-app.delete("/campgrounds/:id", async (req, res) => {
+app.delete("/campgrounds/:id", catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     res.redirect("/campgrounds");
-});
+}));
 
 
 
