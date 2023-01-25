@@ -60,7 +60,7 @@ app.get("/campgrounds/new", (req, res) => {
 //Post Route: Where the form will be submitted after submitting the Form Creation
 app.post("/campgrounds", catchAsync(async (req, res, next) => {
     //If no body.req created and bootstrap form validation is bypassed:
-    if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400); 
+    if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
@@ -114,7 +114,7 @@ app.all("*", (req, res, next) => {
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = "An Error has Occured!!" } = err;
-    res.status(statusCode).send(message);
+    res.status(statusCode).render("error");
 });
 
 
