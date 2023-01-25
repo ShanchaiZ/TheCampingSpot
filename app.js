@@ -113,8 +113,9 @@ app.all("*", (req, res, next) => {
 //Basic Error Handler:
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 app.use((err, req, res, next) => {
-    const { statusCode = 500, message = "An Error has Occured!!" } = err;
-    res.status(statusCode).render("error");
+    const { statusCode = 500, } = err;
+    if (!err.message) err.message = "An Error has Occured!!";
+    res.status(statusCode).render("error", { err });
 });
 
 
