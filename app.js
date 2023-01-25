@@ -7,7 +7,9 @@ const ejsMate = require("ejs-mate")
 const methodOverride = require("method-override");
 const Campground = require("./models/campground");
 
+//Imported Error Handling Utilities:
 const catchAsync = require("./utils/catchAsync");
+const ExpressError = require("./utils/ExpressError");
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 //Importing Mongoose:
@@ -93,6 +95,10 @@ app.delete("/campgrounds/:id", catchAsync(async (req, res) => {
 }));
 
 
+//Basic 404 Route: For all unrecognizable requests:
+app.all("*", (req, res, next) => {
+    next(new ExpressError("Page Not Found!", 404));
+});
 
 // //testing: Creation of a new campground using a route:
 // app.get("/makecampground", async (req, res) => {
@@ -105,7 +111,8 @@ app.delete("/campgrounds/:id", catchAsync(async (req, res) => {
 //Basic Error Handler:
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 app.use((err, req, res, next) => {
-    res.send("An Error has Occured!");
+    const { statusCode = 500, message = "An Error has Occured!!"} = err;
+    res.status(statusCode).send(message);
 });
 
 
