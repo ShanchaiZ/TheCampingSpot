@@ -4,12 +4,14 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate")
+const Joi = require("joi");
 const methodOverride = require("method-override");
 const Campground = require("./models/campground");
 
 //Imported Error Handling Utilities:
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
+const { title } = require("process");
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 //Importing Mongoose:
@@ -60,7 +62,16 @@ app.get("/campgrounds/new", (req, res) => {
 //Post Route: Where the form will be submitted after submitting the Form Creation
 app.post("/campgrounds", catchAsync(async (req, res, next) => {
     //If no body.req created and bootstrap form validation is bypassed:
-    if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
+    // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
+
+    const campgroundSchema = Joi.object({
+        campground: Joi.object({
+            title: Joi.string().required(),
+            price: Joi.number().required().min(0)
+        }).required()
+    }).required();
+    const result = campgroundSchema.validate(req.body);
+    console.log(result);
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
