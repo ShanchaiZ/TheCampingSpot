@@ -41,29 +41,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true })); //req.body parser!
 app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE in addition to GET/POST!
 
-//Routes:
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-app.get("/", (req, res) => {
-    res.render("home");
-});
-
-
-//Index Route: lists all the campgrounds available:
-app.get("/campgrounds", catchAsync(async (req, res) => {
-    const campgrounds = await Campground.find({});
-    res.render("campgrounds/index", { campgrounds });
-}));
-
-//Get Route: Form Creation
-app.get("/campgrounds/new", (req, res) => {
-    res.render("campgrounds/new");
-});
-
-//Post Route: Where the form will be submitted after submitting the Form Creation
-app.post("/campgrounds", catchAsync(async (req, res, next) => {
-    //If no body.req created and bootstrap form validation is bypassed:
-    // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
-
+//Serverside Validation Function:
+const validateCampground = (req, res, next) => {
     //JOI SCHEMA VALIDATOR MODEL:
     const campgroundSchema = Joi.object({
         campground: Joi.object({
@@ -79,8 +58,35 @@ app.post("/campgrounds", catchAsync(async (req, res, next) => {
     if (error) {
         const msg = error.details.map(element => element.message).join(',');
         throw new ExpressError(msg, 400);
+    } else {
+        next();
     }
-    
+}
+
+//Routes:
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
+
+//Index Route: lists all the campgrounds available:
+app.get("/campgrounds", catchAsync(async (req, res) => {
+    const campgrounds = await Campground.find({});
+    res.render("campgrounds/index", { campgrounds });
+}));
+
+
+//Get Route: Form Creation
+app.get("/campgrounds/new", (req, res) => {
+    res.render("campgrounds/new");
+});
+
+
+//Post Route: Where the form will be submitted after submitting the Form Creation
+app.post("/campgrounds", validateCampground, catchAsync(async (req, res, next) => {
+    //If no body.req created and bootstrap form validation is bypassed:
+    // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
@@ -102,7 +108,7 @@ app.get("/campgrounds/:id/edit", catchAsync(async (req, res) => {
 
 
 //PUT ROUTE: Updating Campgrounds: submitting the Editing form using methodOverride
-app.put("/campgrounds/:id", catchAsync(async (req, res) => {
+app.put("/campgrounds/:id", validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
