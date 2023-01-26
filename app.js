@@ -68,7 +68,10 @@ app.post("/campgrounds", catchAsync(async (req, res, next) => {
     const campgroundSchema = Joi.object({
         campground: Joi.object({
             title: Joi.string().required(),
-            price: Joi.number().required().min(0)
+            price: Joi.number().required().min(0),
+            image: Joi.string().required(),
+            location: Joi.string().required(),
+            description: Joi.string().required()
         }).required()
     }).required();
     //If Error in Schema Validation which results in error in req.body: 
@@ -77,7 +80,7 @@ app.post("/campgrounds", catchAsync(async (req, res, next) => {
         const msg = error.details.map(element => element.message).join(',');
         throw new ExpressError(msg, 400);
     }
-    console.log(result);
+    
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
