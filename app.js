@@ -64,13 +64,19 @@ app.post("/campgrounds", catchAsync(async (req, res, next) => {
     //If no body.req created and bootstrap form validation is bypassed:
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
 
+    //JOI SCHEMA VALIDATOR MODEL:
     const campgroundSchema = Joi.object({
         campground: Joi.object({
             title: Joi.string().required(),
             price: Joi.number().required().min(0)
         }).required()
     }).required();
-    const result = campgroundSchema.validate(req.body);
+    //If Error in Schema Validation which results in error in req.body: 
+    const { error } = campgroundSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(element => element.message).join(',');
+        throw new ExpressError(msg, 400);
+    }
     console.log(result);
     const campground = new Campground(req.body.campground);
     await campground.save();
