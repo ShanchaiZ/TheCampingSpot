@@ -61,20 +61,20 @@ app.get("/", (req, res) => {
 });
 
 
-//Index Route: lists all the campgrounds available:
+//INDEX ROUTE: lists all the campgrounds available:
 app.get("/campgrounds", catchAsync(async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render("campgrounds/index", { campgrounds });
 }));
 
 
-//Get Route: Form Creation
+//GET ROUTE: Form Creation
 app.get("/campgrounds/new", (req, res) => {
     res.render("campgrounds/new");
 });
 
 
-//Post Route: Where the form will be submitted after submitting the Form Creation
+//POST ROUTE: Where the form will be submitted after submitting the Form Creation
 app.post("/campgrounds", validateCampground, catchAsync(async (req, res, next) => {
     //If no body.req created and bootstrap form validation is bypassed:
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
@@ -84,7 +84,7 @@ app.post("/campgrounds", validateCampground, catchAsync(async (req, res, next) =
 }));
 
 
-//Show Route: details of all campgrounds:
+//SHOW ROUTE: details of all campgrounds:
 app.get("/campgrounds/:id", catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     res.render("campgrounds/show", { campground });
@@ -113,6 +113,13 @@ app.delete("/campgrounds/:id", catchAsync(async (req, res) => {
     res.redirect("/campgrounds");
 }));
 
+
+
+//REVIEWS:
+//POST ROUTE: submitting a review on campground show page
+app.post("/campgrounds/:id/reviews" , catchAsync(async (req, res) => {
+    res.send("testing route: YOU HAVE SUBMITTED A REVIEW!!")
+}))
 
 //Basic 404 Route: For all unrecognizable requests:
 app.all("*", (req, res, next) => {
