@@ -4,14 +4,17 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
-const {campgroundSchema} = require("./schemas.js");
+const { campgroundSchema } = require("./schemas.js");
 const methodOverride = require("method-override");
 const Campground = require("./models/campground");
+const Review = require("./models/review");
+
 
 //Imported Error Handling Utilities:
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const { title } = require("process");
+const campground = require("./models/campground");
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 //Importing Mongoose:
@@ -114,12 +117,16 @@ app.delete("/campgrounds/:id", catchAsync(async (req, res) => {
 }));
 
 
-
 //REVIEWS:
 //POST ROUTE: submitting a review on campground show page
-app.post("/campgrounds/:id/reviews" , catchAsync(async (req, res) => {
-    res.send("testing route: YOU HAVE SUBMITTED A REVIEW!!")
-}))
+app.post("/campgrounds/:id/reviews", catchAsync(async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
+}));
 
 //Basic 404 Route: For all unrecognizable requests:
 app.all("*", (req, res, next) => {
