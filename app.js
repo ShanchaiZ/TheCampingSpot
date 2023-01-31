@@ -4,8 +4,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
-const { campgroundSchema } = require("./schemas.js");
 const methodOverride = require("method-override");
+const { campgroundSchema, reviewSchema } = require("./schemas.js");
 const Campground = require("./models/campground");
 const Review = require("./models/review");
 

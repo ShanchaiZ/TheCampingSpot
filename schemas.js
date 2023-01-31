@@ -3,6 +3,7 @@
 //SERVERSIDE VALIDATOR SCHEMA FOR CAMPGROUNDS:
 //note: not the same as Mongoose Model Schemas!
 
+const { number } = require("joi");
 const Joi = require("joi");
 //JOI SCHEMA VALIDATOR MODEL:
 module.exports.campgroundSchema = Joi.object({
@@ -14,3 +15,13 @@ module.exports.campgroundSchema = Joi.object({
         description: Joi.string().required()
     }).required()
 }).required();
+
+
+
+//SERVERSIDE VALIDATOR SCHEMA FOR REVIEWS:
+module.exports.reviewSchema = Joi.object({
+    review: Joi.object({
+        rating: Joi.number().required,
+        body: Joi.string().required
+    })
+});
