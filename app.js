@@ -70,7 +70,10 @@ const validateReview = (req, res, next) => {
     }
 }
 
-//Routes:
+//=================================================================================================================================================
+
+
+//ROUTES:
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 app.get("/", (req, res) => {
     res.render("home");
@@ -122,6 +125,7 @@ app.put("/campgrounds/:id", validateCampground, catchAsync(async (req, res) => {
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
+
 //DELETE ROUTE: 
 app.delete("/campgrounds/:id", catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -141,6 +145,16 @@ app.post("/campgrounds/:id/reviews", validateReview, catchAsync(async (req, res)
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
+
+//DELETE ROUTE: delete a review from an associated campground
+app.delete("/campgrounds/:id/reviews/:reviewId", catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`);
+}));
+
+
 //Basic 404 Route: For all unrecognizable requests:
 app.all("*", (req, res, next) => {
     next(new ExpressError("Page Not Found!", 404));
@@ -153,6 +167,9 @@ app.all("*", (req, res, next) => {
 //     res.send(camp);
 // })
 
+
+
+//=================================================================================================================================================
 
 //Basic Error Handler:
 //-------------------------------------------------------------------------------------------------------------------------------------------------
