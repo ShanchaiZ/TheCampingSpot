@@ -44,11 +44,24 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true })); //req.body parser!
 app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE in addition to GET/POST!
 
-//Serverside Validation Function:
+//Serverside Validation Function for Campgrounds:
 const validateCampground = (req, res, next) => {
 
     //If Error in Schema Validation which results in error in req.body: 
     const { error } = campgroundSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(element => element.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
+
+//Serverside Validation Function for Reviews:
+const validateReview = (req, res, next) => {
+
+    //if Error in Schema Validation which results in error in:
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(element => element.message).join(',');
         throw new ExpressError(msg, 400);
@@ -119,7 +132,7 @@ app.delete("/campgrounds/:id", catchAsync(async (req, res) => {
 
 //REVIEWS:
 //POST ROUTE: submitting a review on campground show page
-app.post("/campgrounds/:id/reviews", catchAsync(async (req, res) => {
+app.post("/campgrounds/:id/reviews", validateReview, catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     const review = new Review(req.body.review);
     campground.reviews.push(review);
