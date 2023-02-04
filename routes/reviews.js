@@ -1,10 +1,10 @@
 //Installed Dependencies:
 const express = require("express");
-const router = express.Router();
-const { reviewsSchema } = require("../schemas.js");
-const { route } = require("../campgrounds");
+const router = express.Router({ mergeParams: true });
+const { route } = require("./campgrounds");
 
 //Imported Models:
+const { reviewSchema } = require("../schemas.js");
 const Campground = require("../models/campground");
 const Review = require("../models/review");
 
@@ -17,7 +17,6 @@ const ExpressError = require("../utils/ExpressError");
 
 //Serverside Validation Function for Reviews:
 const validateReview = (req, res, next) => {
-
     //if Error in Schema Validation which results in error in:
     const { error } = reviewSchema.validate(req.body);
     if (error) {
@@ -27,6 +26,7 @@ const validateReview = (req, res, next) => {
         next();
     }
 }
+
 //REVIEWS ROUTES:
 //-----------------------------------------------------------------------------------------------------------------
 //POST ROUTE: submitting a review on campground show page
