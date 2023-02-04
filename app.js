@@ -10,6 +10,7 @@ const Campground = require("./models/campground");
 const Review = require("./models/review");
 
 const campgrounds = require("./routes/campgrounds");
+const reviews = require("./routes/reviews");
 
 //Imported Error Handling Utilities:
 const catchAsync = require("./utils/catchAsync");
@@ -46,22 +47,9 @@ app.use(express.urlencoded({ extended: true })); //req.body parser!
 app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE in addition to GET/POST!
 
 
-//Serverside Validation Function for Reviews:
-const validateReview = (req, res, next) => {
-
-    //if Error in Schema Validation which results in error in:
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(element => element.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
-
 //middleware routes:
 app.use("/campgrounds" , campgrounds);
-app.use("/reviews" , reviews);
+app.use("/campgrounds/:id/reviews" , reviews);
 
 //=================================================================================================================================================
 
@@ -84,7 +72,6 @@ app.all("*", (req, res, next) => {
 //     await camp.save();
 //     res.send(camp);
 // })
-
 
 
 //=================================================================================================================================================

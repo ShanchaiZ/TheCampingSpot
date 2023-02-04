@@ -1,11 +1,14 @@
+//Installed Dependencies:
 const express = require("express");
 const router = express.Router();
+
+//Imported Models:
 const { campgroundSchema } = require("../schemas.js");
+const Campground = require("../models/campground");
 
 //Imported Error Handling Utilities:
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
-const Campground = require("../models/campground");
 
 
 //CAMPGROUND MIDDLEWARE:
