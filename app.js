@@ -61,6 +61,7 @@ const validateReview = (req, res, next) => {
 
 //middleware routes:
 app.use("/campgrounds" , campgrounds);
+app.use("/reviews" , reviews);
 
 //=================================================================================================================================================
 
@@ -70,27 +71,6 @@ app.use("/campgrounds" , campgrounds);
 app.get("/", (req, res) => {
     res.render("home");
 });
-
-
-//REVIEWS:
-//POST ROUTE: submitting a review on campground show page
-app.post("/campgrounds/:id/reviews", validateReview, catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    const review = new Review(req.body.review);
-    campground.reviews.push(review);
-    await review.save();
-    await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`);
-}));
-
-
-//DELETE ROUTE: delete a review from an associated campground
-app.delete("/campgrounds/:id/reviews/:reviewId", catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/campgrounds/${id}`);
-}));
 
 
 //Basic 404 Route: For all unrecognizable requests:

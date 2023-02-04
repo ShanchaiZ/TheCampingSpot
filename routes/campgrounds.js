@@ -8,7 +8,7 @@ const ExpressError = require("../utils/ExpressError");
 const Campground = require("../models/campground");
 
 
-//Campground Middlewares:
+//CAMPGROUND MIDDLEWARE:
 //-----------------------------------------------------------------------------------------------------------------
 
 //Serverside Validation Function for Campgrounds:
