@@ -9,6 +9,7 @@ const { campgroundSchema, reviewSchema } = require("./schemas.js");
 const Campground = require("./models/campground");
 const Review = require("./models/review");
 
+const campgrounds = require("./routes/campgrounds");
 
 //Imported Error Handling Utilities:
 const catchAsync = require("./utils/catchAsync");
@@ -70,6 +71,9 @@ const validateReview = (req, res, next) => {
     }
 }
 
+//middleware routes:
+app.use("/campgrounds" , campgrounds);
+
 //=================================================================================================================================================
 
 
@@ -78,60 +82,6 @@ const validateReview = (req, res, next) => {
 app.get("/", (req, res) => {
     res.render("home");
 });
-
-
-//INDEX ROUTE: lists all the campgrounds available:
-app.get("/campgrounds", catchAsync(async (req, res) => {
-    const campgrounds = await Campground.find({});
-    res.render("campgrounds/index", { campgrounds });
-}));
-
-
-//GET ROUTE: Form Creation
-app.get("/campgrounds/new", (req, res) => {
-    res.render("campgrounds/new");
-});
-
-
-//POST ROUTE: Where the form will be submitted after submitting the Form Creation
-app.post("/campgrounds", validateCampground, catchAsync(async (req, res, next) => {
-    //If no body.req created and bootstrap form validation is bypassed:
-    // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
-    const campground = new Campground(req.body.campground);
-    await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`);
-}));
-
-
-//SHOW ROUTE: details of all campgrounds:
-app.get("/campgrounds/:id", catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id).populate("reviews");
-    res.render("campgrounds/show", { campground });
-}));
-
-
-//GET ROUTE: Updating Campgrounds: creating an Editing form
-app.get("/campgrounds/:id/edit", catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    res.render("campgrounds/edit", { campground });
-}));
-
-
-//PUT ROUTE: Updating Campgrounds: submitting the Editing form using methodOverride
-app.put("/campgrounds/:id", validateCampground, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
-    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
-    res.redirect(`/campgrounds/${campground._id}`);
-}));
-
-
-//DELETE ROUTE: 
-app.delete("/campgrounds/:id", catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Campground.findByIdAndDelete(id);
-    res.redirect("/campgrounds");
-}));
 
 
 //REVIEWS:
