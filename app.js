@@ -45,18 +45,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true })); //req.body parser!
 app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE in addition to GET/POST!
 
-//Serverside Validation Function for Campgrounds:
-const validateCampground = (req, res, next) => {
-
-    //If Error in Schema Validation which results in error in req.body: 
-    const { error } = campgroundSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(element => element.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
 
 //Serverside Validation Function for Reviews:
 const validateReview = (req, res, next) => {
