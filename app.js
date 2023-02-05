@@ -44,7 +44,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true })); //req.body parser!
 app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE in addition to GET/POST!
-
+app.use(express.static(path.join(__dirname, "public")));
 
 //middleware routes:
 app.use("/campgrounds" , campgrounds);
