@@ -5,6 +5,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
+const session = require("express-session");
+
 const { campgroundSchema, reviewSchema } = require("./schemas.js");
 const Campground = require("./models/campground");
 const Review = require("./models/review");
@@ -47,6 +49,14 @@ app.use(express.urlencoded({ extended: true })); //req.body parser!
 app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE in addition to GET/POST!
 app.use(express.static(path.join(__dirname, "public")));
 
+const sessionConfig = {
+    secret: "testingsecret!",
+    resave: false, //as indicated by express-session docs
+    saveUninitialized: true, //as indicated by express-session docs
+    // store: xyz //In the future it will be a mongo store. Currently we will be using the memory store (only used for dev purposes!)
+}
+app.use(session(sessionConfig));
+
 //middleware routes:
 app.use("/campgrounds" , campgrounds);
 app.use("/campgrounds/:id/reviews" , reviews);
@@ -88,4 +98,4 @@ app.use((err, req, res, next) => {
 //=============================================================================================
 app.listen(3001, () => {
     console.log("APP IS LISTENING ON PORT 3001!")
-})
+});

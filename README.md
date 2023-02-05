@@ -4,6 +4,9 @@ installed: npm express, ejs, mongoose, method-override, ejs-mate for making part
 
 Reviews: made associations between user rating and reviews with its campground. atm: 1 campground > many rating rendered on campground show template!
 
+then reorganized into routes and using express router.
+then added express sessions: to add flash messages and for authentication in future!
+
 Basic set up of campground rating app that has CRUD infrastructure
 To-do:
 * majority of modeling info
