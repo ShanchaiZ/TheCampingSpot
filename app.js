@@ -20,6 +20,7 @@ const campground = require("./models/campground");
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 //Importing Mongoose:
+mongoose.set('strictQuery', false); // Mongodb warning that returns an error if the collection does not exist
 mongoose.connect("mongodb://127.0.0.1:27017/TheCampingSpot", {
     useNewUrlParser: true,
     useUnifiedTopology: true
