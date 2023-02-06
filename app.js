@@ -65,6 +65,13 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+//Flashing messages:
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    req.locals.error = req.flash("error");
+    next();
+});
+
 //middleware routes:
 app.use("/campgrounds", campgrounds);
 app.use("/campgrounds/:id/reviews", reviews);
