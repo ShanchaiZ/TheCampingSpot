@@ -54,12 +54,18 @@ const sessionConfig = {
     resave: false, //as indicated by express-session docs
     saveUninitialized: true, //as indicated by express-session docs
     // store: xyz //In the future it will be a mongo store. Currently we will be using the memory store (only used for dev purposes!)
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + (1000 * 60 * 60 * 24 * 7), //Number of milliseconds in 1 week is how long cookie will last
+        maxAge: (1000 * 60 * 60 * 24 * 7)
+    }
+
 }
 app.use(session(sessionConfig));
 
 //middleware routes:
-app.use("/campgrounds" , campgrounds);
-app.use("/campgrounds/:id/reviews" , reviews);
+app.use("/campgrounds", campgrounds);
+app.use("/campgrounds/:id/reviews", reviews);
 
 //=================================================================================================================================================
 
