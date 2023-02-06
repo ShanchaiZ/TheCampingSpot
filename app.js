@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const { campgroundSchema, reviewSchema } = require("./schemas.js");
 const Campground = require("./models/campground");
@@ -62,6 +63,7 @@ const sessionConfig = {
 
 }
 app.use(session(sessionConfig));
+app.use(flash());
 
 //middleware routes:
 app.use("/campgrounds", campgrounds);
