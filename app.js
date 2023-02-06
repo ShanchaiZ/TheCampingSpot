@@ -68,7 +68,7 @@ app.use(flash());
 //Flashing messages:
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
-    req.locals.error = req.flash("error");
+    // req.locals.error = req.flash("error");
     next();
 });
 

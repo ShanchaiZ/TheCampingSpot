@@ -47,7 +47,7 @@ router.post("/", validateCampground, catchAsync(async (req, res, next) => {
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
-    req.flash("success" ,"Campground Successfully Created!");
+    req.flash("success" ,"Campground Successfully Created!"); //flash smg("key" ,"message");
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
@@ -71,6 +71,7 @@ router.put("/:id", validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
+    req.flash("success" ,"Campground Successfully Updated!");
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
@@ -79,6 +80,7 @@ router.put("/:id", validateCampground, catchAsync(async (req, res) => {
 router.delete("/:id", catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
+    req.flash("success" ,"Campground Successfully Deleted!");
     res.redirect("/campgrounds");
 }));
 
