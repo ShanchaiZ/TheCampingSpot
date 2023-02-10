@@ -8,9 +8,15 @@ const methodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("connect-flash");
 
-const { campgroundSchema, reviewSchema } = require("./schemas.js");
-const Campground = require("./models/campground");
-const Review = require("./models/review");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+
+
+
+const { campgroundSchema, reviewSchema } = require("./schemas.js");//
+const Campground = require("./models/campground");//
+const Review = require("./models/review");//
+const User = require("./models/user");
 
 const campgrounds = require("./routes/campgrounds");
 const reviews = require("./routes/reviews");
@@ -71,6 +77,15 @@ app.use((req, res, next) => {
     res.locals.error = req.flash("error");
     next();
 });
+
+//passport configuration:
+app.use(passport.initialize());
+app.use(passport.session()); //needed for persistent login sessions and passport.session NEEDS to be after session().
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());//explain: tells passport how to serialize a user. Serialize a user refers to "how do we store a user in a session?" and "how do we get a user out of that session?"
+
 
 //middleware routes:
 app.use("/campgrounds", campgrounds);
