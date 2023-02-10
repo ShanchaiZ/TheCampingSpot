@@ -100,6 +100,15 @@ app.get("/", (req, res) => {
 });
 
 
+//testing: GET ROUTE: Registering A New User: 
+app.get("/fakeUser", async (req, res) => {
+    const user = new User({ email: "JohnDoe@gmail.com", username: "John" })
+    const newUser = await User.register(user, "123"); // User.Register takes the entire user model the instance then a password. then hashes it.
+    res.send(newUser);
+}) 
+//Testing Verified: this route and the method User.register does output an email, a username, a salt and hash field!
+
+
 //Basic 404 Route: For all unrecognizable requests:
 app.all("*", (req, res, next) => {
     next(new ExpressError("Page Not Found!", 404));
