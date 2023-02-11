@@ -1,1 +1,29 @@
-<h1>REGISTER FORM!!</h1>
+<% layout ("layouts/boilerplate") %>
+<h1>Registration!</h1>
+<form action="/register" method="POST" class="validated-form" novalidate>
+    <!-- Username Field -->
+    <div class="mb-3">
+        <label class="form-label" for="username">Username</label>
+        <input class="form-control" type="text" id="username" name="username" 
+            placeholder="Enter A Username" required>
+        <!-- Feedback Validation -->
+        <div class="valid-feedback">Good Stuff!</div>
+    </div>
+    <!-- Email Field -->
+    <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" type="email" id="email" name="email" 
+            placeholder="Enter A Valid Email" required>
+        <!-- Feedback Validation -->
+        <div class="valid-feedback">Great Stuff!</div>
+    </div>
+    <!-- Password Field -->
+    <div class="mb-3">
+        <label class="form-label" for="email">Password</label>
+        <input class="form-control" type="password" id="password" name="password" 
+            placeholder="Enter A Password" required>
+        <!-- Feedback Validation -->
+        <div class="valid-feedback">Fantastic!</div>
+    </div>
+    <button class="btn btn-success">Register</button>
+</form>
