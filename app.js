@@ -11,15 +11,15 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
-
-
 const { campgroundSchema, reviewSchema } = require("./schemas.js");//
 const Campground = require("./models/campground");//
 const Review = require("./models/review");//
 const User = require("./models/user");
 
-const campgrounds = require("./routes/campgrounds");
-const reviews = require("./routes/reviews");
+
+const userRoutes = require("./routes/users");
+const campgroundsRoutes = require("./routes/campgrounds");
+const reviewsRoutes = require("./routes/reviews");
 
 //Imported Error Handling Utilities:
 const catchAsync = require("./utils/catchAsync");
@@ -88,8 +88,9 @@ passport.deserializeUser(User.deserializeUser());//explain: tells passport how t
 
 
 //middleware routes:
-app.use("/campgrounds", campgrounds);
-app.use("/campgrounds/:id/reviews", reviews);
+app.use("/campgrounds", campgroundsRoutes);
+app.use("/campgrounds/:id/reviews", reviewsRoutes);
+app.use("/", userRoutes);
 
 //=================================================================================================================================================
 
@@ -105,7 +106,7 @@ app.get("/fakeUser", async (req, res) => {
     const user = new User({ email: "JohnDoe@gmail.com", username: "John" })
     const newUser = await User.register(user, "123"); // User.Register takes the entire user model the instance then a password. then hashes it.
     res.send(newUser);
-}) 
+})
 //Testing Verified: this route and the method User.register does output an email, a username, a salt and hash field!
 
 
