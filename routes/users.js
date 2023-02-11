@@ -3,11 +3,15 @@ const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/user");
 
+
+//USER ROUTES:
+//-----------------------------------------------------------------------------------------------------------------
+//GET ROUTE: serving a registration form:
 router.get("/register", (req, res) => {
     res.render("./users/register");
 })
 
-//Registration:
+//POST ROUTE: creating a user on submission of registration form
 router.post("/register", catchAsync(async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -20,5 +24,12 @@ router.post("/register", catchAsync(async (req, res) => {
         res.redirect("register");
     }
 }));
+
+
+//GET ROUTE: serving a login form:
+router.get("/login", (req, res) => {
+    res.render("users/login");
+})
+
 
 module.exports = router;
