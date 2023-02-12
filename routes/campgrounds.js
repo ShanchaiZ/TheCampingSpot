@@ -43,7 +43,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 
 
 //POST ROUTE: Where the form will be submitted after submitting the Form Creation
-router.post("/", validateCampground, catchAsync(async (req, res, next) => {
+router.post("/", isLoggedIn, validateCampground, catchAsync(async (req, res, next) => {
     //If no body.req created and bootstrap form validation is bypassed:
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
     const campground = new Campground(req.body.campground);
@@ -54,7 +54,7 @@ router.post("/", validateCampground, catchAsync(async (req, res, next) => {
 
 
 //SHOW ROUTE: details of all campgrounds:
-router.get("/:id", catchAsync(async (req, res) => {
+router.get("/:id", isLoggedIn, catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id).populate("reviews");
     if (!campground) {
         req.flash("error", "Campground Not Found!");
@@ -65,7 +65,7 @@ router.get("/:id", catchAsync(async (req, res) => {
 
 
 //GET ROUTE: Updating Campgrounds: creating an Editing form
-router.get("/:id/edit", catchAsync(async (req, res) => {
+router.get("/:id/edit", isLoggedIn, catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     if (!campground) {
         req.flash("error", "Campground Not Found!");
@@ -76,7 +76,7 @@ router.get("/:id/edit", catchAsync(async (req, res) => {
 
 
 //PUT ROUTE: Updating Campgrounds: submitting the Editing form using methodOverride
-router.put("/:id", validateCampground, catchAsync(async (req, res) => {
+router.put("/:id", isLoggedIn, validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
@@ -86,7 +86,7 @@ router.put("/:id", validateCampground, catchAsync(async (req, res) => {
 
 
 //DELETE ROUTE: 
-router.delete("/:id", catchAsync(async (req, res) => {
+router.delete("/:id", isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     req.flash("success", "Campground Successfully Deleted!");
