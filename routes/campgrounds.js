@@ -1,6 +1,7 @@
 //Installed Dependencies:
 const express = require("express");
 const router = express.Router();
+const { isLoggedIn } = require("../middleware");
 
 //Imported Models:
 const { campgroundSchema } = require("../schemas.js");
@@ -36,7 +37,7 @@ router.get("/", catchAsync(async (req, res) => {
 
 
 //GET ROUTE: Form Creation
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
     res.render("campgrounds/new");
 });
 
@@ -47,7 +48,7 @@ router.post("/", validateCampground, catchAsync(async (req, res, next) => {
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
-    req.flash("success" ,"Campground Successfully Created!"); //flash smg("key" ,"message");
+    req.flash("success", "Campground Successfully Created!"); //flash smg("key" ,"message");
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
@@ -55,8 +56,8 @@ router.post("/", validateCampground, catchAsync(async (req, res, next) => {
 //SHOW ROUTE: details of all campgrounds:
 router.get("/:id", catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id).populate("reviews");
-    if(!campground){
-        req.flash("error" ,"Campground Not Found!");
+    if (!campground) {
+        req.flash("error", "Campground Not Found!");
         return res.redirect("/campgrounds");
     }
     res.render("campgrounds/show", { campground });
@@ -66,8 +67,8 @@ router.get("/:id", catchAsync(async (req, res) => {
 //GET ROUTE: Updating Campgrounds: creating an Editing form
 router.get("/:id/edit", catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
-    if(!campground) {
-        req.flash("error" ,"Campground Not Found!");
+    if (!campground) {
+        req.flash("error", "Campground Not Found!");
         return res.redirect("/campgrounds");
     }
     res.render("campgrounds/edit", { campground });
@@ -79,7 +80,7 @@ router.put("/:id", validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
-    req.flash("success" ,"Campground Successfully Updated!");
+    req.flash("success", "Campground Successfully Updated!");
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
@@ -88,7 +89,7 @@ router.put("/:id", validateCampground, catchAsync(async (req, res) => {
 router.delete("/:id", catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
-    req.flash("success" ,"Campground Successfully Deleted!");
+    req.flash("success", "Campground Successfully Deleted!");
     res.redirect("/campgrounds");
 }));
 
