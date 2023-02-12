@@ -15,6 +15,7 @@
                 <li class="list-group-item">Submitted by: <%= campground.author.username %></li>
                 <li class="list-group-item"> $<%= campground.price %>/night</li>
             </ul>
+            <% if (currentUser && campground.author.equals(currentUser._id)) {%>
             <!-- EDIT, VIEW ALL BUTTONS -->
             <div class="card-body">
                 <a class="card-link btn btn-info" href="/campgrounds/<%= campground._id%>/edit">Edit</a>
@@ -24,6 +25,7 @@
                     <button class="btn btn-danger">Delete</button>
                 </form>
             </div>
+            <% } %>
             <!-- FOOTER -->
             <div class="card-footer text-muted">
                 Posted 5 days ago
