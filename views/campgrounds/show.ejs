@@ -9,9 +9,10 @@
                 <h5 class="card-title"><%= campground.title %></h5>
                 <p class="card-text"><%= campground.description %></p>
             </div>
-            <!-- CARD LOCATION AND PRICE -->
+            <!-- CARD LOCATION, AUTHOR AND PRICE -->
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-muted"><%= campground.location %></li>
+                <li class="list-group-item">Submitted by: <%= campground.author.username %></li>
                 <li class="list-group-item"> $<%= campground.price %>/night</li>
             </ul>
             <!-- EDIT, VIEW ALL BUTTONS -->
