@@ -39,6 +39,8 @@ const seedDB = async () => {
         const random1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 30) + 10;
         const camp = new Campground({
+            //Author: "hard coded Id of this user for testing"
+            author: "63e82fa3f88d3866479bc3b8",
             //Location = (random city from the 1000 cities array and .city is the property we want.) + (random State from 1000 cities array and the random State property)
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             //Title of the location: from seedHelpers array  --> random sample descriptor 
