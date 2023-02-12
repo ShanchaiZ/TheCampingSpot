@@ -71,13 +71,6 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-//Flashing messages:
-app.use((req, res, next) => {
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    next();
-});
-
 //passport configuration:
 app.use(passport.initialize());
 app.use(passport.session()); //needed for persistent login sessions and passport.session NEEDS to be after session().
@@ -86,6 +79,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());//explain: tells passport how to serialize a user. Serialize a user refers to "how do we store a user in a session?" and "how do we get a user out of that session?"
 
+
+//Flashing messages:
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 //middleware routes:
 app.use("/campgrounds", campgroundsRoutes);
