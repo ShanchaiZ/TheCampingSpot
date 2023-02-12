@@ -41,7 +41,9 @@ router.get("/login", (req, res) => {
 //POST ROUTE: Creating a login using the login form:
 router.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), (req, res) => {
     req.flash("success", "Welcome Back to TheCampingSpot");
-    res.redirect("/campgrounds");
+    const redirectURL = req.session.returnTo || "/campgrounds";
+    delete req.session.returnTo;
+    res.redirect(redirectURL);
 });
 
 
