@@ -80,8 +80,13 @@ router.get("/:id/edit", isLoggedIn, catchAsync(async (req, res) => {
 //PUT ROUTE: Updating Campgrounds: submitting the Editing form using methodOverride
 router.put("/:id", isLoggedIn, validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
+    const campground = await Campground.findById(id);
+    if (!campground.author.equals(req.user._id)) {
+        req.flash("error", "You do not have permission!")
+        return res.redirect(`/campgrounds/${id}`)
+    }
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
-    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
+    const camp = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true }); // it is no longer good enough to find AND update at the same time. this step needs to be broken into 2 steps for protection: first find THEN UPDATE
     req.flash("success", "Campground Successfully Updated!");
     res.redirect(`/campgrounds/${campground._id}`);
 }));
