@@ -2,31 +2,16 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const { route } = require("./campgrounds");
+const { validateReview } = require("../middleware")
 
 //Imported Models:
-const { reviewSchema } = require("../schemas.js");
 const Campground = require("../models/campground");
 const Review = require("../models/review");
 
 //Imported Error Handling Utilities:
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
 
-//REVIEWS MIDDLEWARE:
-//-----------------------------------------------------------------------------------------------------------------
-
-//Serverside Validation Function for Reviews:
-const validateReview = (req, res, next) => {
-    //if Error in Schema Validation which results in error in:
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(element => element.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
-
+//REVIEWS MIDDLEWARE: (moved to middleware.js)
 //REVIEWS ROUTES:
 //-----------------------------------------------------------------------------------------------------------------
 //POST ROUTE: submitting a review on campground show page
@@ -36,7 +21,7 @@ router.post("/", validateReview, catchAsync(async (req, res) => {
     campground.reviews.push(review);
     await review.save();
     await campground.save();
-    req.flash("success" ,"Review Successfully Created!");
+    req.flash("success", "Review Successfully Created!");
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
@@ -46,7 +31,7 @@ router.delete("/:reviewId", catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
-    req.flash("success" ,"Review Successfully Deleted!");
+    req.flash("success", "Review Successfully Deleted!");
     res.redirect(`/campgrounds/${id}`);
 }));
 

@@ -1,5 +1,5 @@
 //Imported Models:
-const { campgroundSchema } = require("./schemas.js");
+const { campgroundSchema, reviewSchema } = require("./schemas.js"); //Joi serverside schema
 const Campground = require("./models/campground");
 
 //Imported Error Handling Utilities:
@@ -42,4 +42,16 @@ module.exports.isAuthor = async (req, res, next) => {
 }
 
 
+//REVIEW MIDDLEWARE:
 //-----------------------------------------------------------------------------------------------------------------
+//Serverside Validation Function for Reviews:
+module.exports.validateReview = (req, res, next) => {
+    //if Error in Schema Validation which results in error in:
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(element => element.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
