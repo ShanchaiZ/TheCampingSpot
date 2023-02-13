@@ -27,6 +27,16 @@ const validateCampground = (req, res, next) => {
     }
 }
 
+//Checking Ownership of Campground to make changes to it:
+const isAuthor = async (req, res, next) => {
+    const {id} = req.params;
+    const campground = await Campground.findById(id);
+    if (!campground.author.equals(req.user._id)) {
+        req.flash("error", "You do not have permission!")
+        return res.redirect(`/campgrounds/${id}`)
+    }
+    next();
+}
 //CAMPGROUND ROUTES:
 //-----------------------------------------------------------------------------------------------------------------
 //INDEX ROUTE: lists all the campgrounds available:
@@ -67,7 +77,7 @@ router.get("/:id", isLoggedIn, catchAsync(async (req, res) => {
 
 
 //GET ROUTE: Updating Campgrounds: creating an Editing form
-router.get("/:id/edit", isLoggedIn, catchAsync(async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     //1. Result is there is no campgrounds:
@@ -75,11 +85,8 @@ router.get("/:id/edit", isLoggedIn, catchAsync(async (req, res) => {
         req.flash("error", "Campground Not Found!");
         return res.redirect("/campgrounds");
     }
-    //2. Result if owner of Campground does not match the user id of the request:
-    if (!campground.author.equals(req.user._id)) {
-        req.flash("error", "You do not have permission!")
-        return res.redirect(`/campgrounds/${id}`)
-    }
+    //2. Result if owner of Campground does not match the user id of the request(is completed in middleware "isAuthor")
+
     res.render("campgrounds/edit", { campground });
 }));
 
@@ -87,11 +94,7 @@ router.get("/:id/edit", isLoggedIn, catchAsync(async (req, res) => {
 //PUT ROUTE: Updating Campgrounds: submitting the Editing form using methodOverride
 router.put("/:id", isLoggedIn, validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
-    const campground = await Campground.findById(id);
-    if (!campground.author.equals(req.user._id)) {
-        req.flash("error", "You do not have permission!")
-        return res.redirect(`/campgrounds/${id}`)
-    }
+
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
     const camp = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true }); // it is no longer good enough to find AND update at the same time. this step needs to be broken into 2 steps for protection: first find THEN UPDATE
     req.flash("success", "Campground Successfully Updated!");
