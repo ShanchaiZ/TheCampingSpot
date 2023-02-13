@@ -1,42 +1,15 @@
 //Installed Dependencies:
 const express = require("express");
 const router = express.Router();
-const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, isAuthor,validateCampground } = require("../middleware");
 
 //Imported Models:
-const { campgroundSchema } = require("../schemas.js");
 const Campground = require("../models/campground");
 
 //Imported Error Handling Utilities:
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
 
-
-//CAMPGROUND MIDDLEWARE:
-//-----------------------------------------------------------------------------------------------------------------
-
-//Serverside Validation Function for Campgrounds:
-const validateCampground = (req, res, next) => {
-    //If Error in Schema Validation which results in error in req.body: 
-    const { error } = campgroundSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(element => element.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
-
-//Checking Ownership of Campground to make changes to it:
-const isAuthor = async (req, res, next) => {
-    const {id} = req.params;
-    const campground = await Campground.findById(id);
-    if (!campground.author.equals(req.user._id)) {
-        req.flash("error", "You do not have permission!")
-        return res.redirect(`/campgrounds/${id}`)
-    }
-    next();
-}
+//CAMPGROUND MIDDLEWARE:(moved to middleware.js)
 //CAMPGROUND ROUTES:
 //-----------------------------------------------------------------------------------------------------------------
 //INDEX ROUTE: lists all the campgrounds available:
