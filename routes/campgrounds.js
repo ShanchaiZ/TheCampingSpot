@@ -1,7 +1,7 @@
 //Installed Dependencies:
 const express = require("express");
 const router = express.Router();
-const { isLoggedIn, isAuthor,validateCampground } = require("../middleware");
+const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
 
 //Imported Models:
 const Campground = require("../models/campground");
@@ -39,8 +39,12 @@ router.post("/", isLoggedIn, validateCampground, catchAsync(async (req, res, nex
 
 //SHOW ROUTE: details of all campgrounds:
 router.get("/:id", isLoggedIn, catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id).populate("reviews").populate("author");
-    // console.log(campground);
+    const campground = await Campground.findById(req.params.id).populate({
+        path: "reviews", //nested populate
+        populate: {
+            path: "author"
+        }
+    }).populate("author");
     if (!campground) {
         req.flash("error", "Campground Not Found!");
         return res.redirect("/campgrounds");
