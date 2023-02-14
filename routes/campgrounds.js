@@ -40,12 +40,7 @@ router.put("/:id", isLoggedIn, isAuthor, validateCampground, catchAsync(campgrou
 
 
 //DELETE ROUTE: 
-router.delete("/:id", isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Campground.findByIdAndDelete(id);
-    req.flash("success", "Campground Successfully Deleted!");
-    res.redirect("/campgrounds");
-}));
+router.delete("/:id", isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
 
 
 module.exports = router;

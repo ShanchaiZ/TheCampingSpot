@@ -2,7 +2,7 @@
 const Campground = require("../models/campground");
 
 
-//GET Route: Lists/indexes All the Campgrounds Available:
+//GET Route: Lists/indexes All the Campgrounds Available
 module.exports.index = async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render("campgrounds/index", { campgrounds });
@@ -15,7 +15,7 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 
-//POST Route: Creation of A Campground After Campground Form Submission:
+//POST Route: Creation of A Campground After Campground Form Submission
 module.exports.createCampground = async (req, res, next) => {
     //If no body.req created and bootstrap form validation is bypassed:
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
@@ -27,7 +27,7 @@ module.exports.createCampground = async (req, res, next) => {
 }
 
 
-//SHOW ROUTE: Details of all campgrounds:
+//SHOW route: Details of all campgrounds
 module.exports.showCampground = async (req, res) => {
     const campground = await Campground.findById(req.params.id).populate({
         path: "reviews", //nested populate
@@ -42,7 +42,7 @@ module.exports.showCampground = async (req, res) => {
     res.render("campgrounds/show", { campground });
 }
 
-//GET ROUTE: Render An Edit Form for Updating campgrounds
+//GET route: Render An Edit Form for Updating campgrounds
 module.exports.renderEditCampground = async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
@@ -55,7 +55,7 @@ module.exports.renderEditCampground = async (req, res) => {
 }
 
 
-//PUT ROUTE: Updating Campgrounds After Submitting Editing form
+//PUT route: Updating Campgrounds After Submitting Editing form
 module.exports.updateCampground = async (req, res) => {
     const { id } = req.params;
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
@@ -64,3 +64,11 @@ module.exports.updateCampground = async (req, res) => {
     res.redirect(`/campgrounds/${campground._id}`);
 }
 
+
+//DELETE route: Delete/Destroy A Campground
+module.exports.deleteCampground = async (req, res) => {
+    const { id } = req.params;
+    await Campground.findByIdAndDelete(id);
+    req.flash("success", "Campground Successfully Deleted!");
+    res.redirect("/campgrounds");
+}
