@@ -41,3 +41,26 @@ module.exports.showCampground = async (req, res) => {
     }
     res.render("campgrounds/show", { campground });
 }
+
+//GET ROUTE: Render An Edit Form for Updating campgrounds
+module.exports.renderEditCampground = async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findById(id);
+    //1. Result is there is no campgrounds:
+    if (!campground) {
+        req.flash("error", "Campground Not Found!");
+        return res.redirect("/campgrounds");
+    }
+    res.render("campgrounds/edit", { campground });
+}
+
+
+//PUT ROUTE: Updating Campgrounds After Submitting Editing form
+module.exports.updateCampground = async (req, res) => {
+    const { id } = req.params;
+    //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
+    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true }); // it is no longer good enough to find AND update at the same time. this step needs to be broken into 2 steps for protection: first find THEN UPDATE
+    req.flash("success", "Campground Successfully Updated!");
+    res.redirect(`/campgrounds/${campground._id}`);
+}
+
