@@ -24,31 +24,11 @@ router.get("/new", isLoggedIn, campgrounds.renderNewForm);
 
 
 //POST ROUTE: Where the form will be submitted after submitting the Form Creation
-router.post("/", isLoggedIn, validateCampground, catchAsync(async (req, res, next) => {
-    //If no body.req created and bootstrap form validation is bypassed:
-    // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
-    const campground = new Campground(req.body.campground);
-    campground.author = req.user._id; //same as reviews
-    await campground.save();
-    req.flash("success", "Campground Successfully Created!"); //flash smg("key" ,"message");
-    res.redirect(`/campgrounds/${campground._id}`);
-}));
+router.post("/", isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
 
 
 //SHOW ROUTE: details of all campgrounds:
-router.get("/:id", isLoggedIn, catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id).populate({
-        path: "reviews", //nested populate
-        populate: {
-            path: "author"
-        }
-    }).populate("author");
-    if (!campground) {
-        req.flash("error", "Campground Not Found!");
-        return res.redirect("/campgrounds");
-    }
-    res.render("campgrounds/show", { campground });
-}));
+router.get("/:id", isLoggedIn, catchAsync(campgrounds.showCampground));
 
 
 //GET ROUTE: Updating Campgrounds: creating an Editing form
