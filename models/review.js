@@ -3,7 +3,11 @@ const Schema = mongoose.Schema; //shortcut for referencing Mongoose.Schema for r
 
 const reviewSchema = new Schema({
     body: String,
-    rating: Number
+    rating: Number,
+    author: {
+        type:Schema.Types.ObjectId,
+        ref: "User"
+    }
 })
 
 module.exports = mongoose.model("Review" , reviewSchema);

@@ -32,9 +32,11 @@
             </div>
         </div>
     </div>
-    
+
     <!-- REVIEW SECTION-->
     <div class="col-6">
+        <% if (currentUser){%>
+        <h2>Leave A Review!</h2>
         <form action="/campgrounds/<%= campground._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
             <!-- RATING SLIDER-->
             <div class="mb-3">
@@ -50,17 +52,18 @@
             </div>
             <button class="btn btn-success">Submit</button>
         </form>
+        <% } %>
         <!-- DISPLAY RATING AND REVIEWS-->
         <% for(let review of campground.reviews) {%>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Rating: <%=review.rating%></h5>
-                    <p class="card-text">Review: <%=review.body%></p>
-                    <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
-                        <button class="btn btn-sm btn-danger">Delete Review</button>
-                    </form>
-                </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Rating: <%=review.rating%></h5>
+                <p class="card-text">Review: <%=review.body%></p>
+                <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger">Delete Review</button>
+                </form>
             </div>
-        <% } %> 
+        </div>
+        <% } %>
     </div>
 </div>
