@@ -3,6 +3,9 @@ const express = require("express");
 const router = express.Router();
 const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
 
+//Impoted Controllers:
+const campgrounds = require("../controllers/campgrounds");
+
 //Imported Models:
 const Campground = require("../models/campground");
 
@@ -13,16 +16,11 @@ const catchAsync = require("../utils/catchAsync");
 //CAMPGROUND ROUTES:
 //-----------------------------------------------------------------------------------------------------------------
 //INDEX ROUTE: lists all the campgrounds available:
-router.get("/", catchAsync(async (req, res) => {
-    const campgrounds = await Campground.find({});
-    res.render("campgrounds/index", { campgrounds });
-}));
+router.get("/", catchAsync(campgrounds.index));
 
 
 //GET ROUTE: Form Creation
-router.get("/new", isLoggedIn, (req, res) => {
-    res.render("campgrounds/new");
-});
+router.get("/new", isLoggedIn, campgrounds.renderNewForm);
 
 
 //POST ROUTE: Where the form will be submitted after submitting the Form Creation
