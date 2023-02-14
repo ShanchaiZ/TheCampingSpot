@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
 
-//Impoted Controllers:
+//Imported Controllers:
 const campgrounds = require("../controllers/campgrounds");
 
 //Imported Models:
