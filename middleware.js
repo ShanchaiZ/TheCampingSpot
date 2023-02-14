@@ -1,6 +1,7 @@
 //Imported Models:
 const { campgroundSchema, reviewSchema } = require("./schemas.js"); //Joi serverside schema
 const Campground = require("./models/campground");
+const Review = require("./models/review");
 
 //Imported Error Handling Utilities:
 const ExpressError = require("./utils/ExpressError");
@@ -54,4 +55,15 @@ module.exports.validateReview = (req, res, next) => {
     } else {
         next();
     }
+}
+
+//Checking Ownership of the Review to make changes to it:
+module.exports.isReviewAuthor = async (req, res, next) => {
+    const { id, reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+    if (!review.author.equals(req.user._id)) {
+        req.flash("error", "You do not have permission!")
+        return res.redirect(`/campgrounds/${id}`)
+    }
+    next();
 }
