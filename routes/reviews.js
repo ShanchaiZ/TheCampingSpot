@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const { route } = require("./campgrounds");
-const { validateReview } = require("../middleware")
+const { validateReview, isLoggedIn } = require("../middleware")
 
 //Imported Models:
 const Campground = require("../models/campground");
@@ -15,9 +15,10 @@ const catchAsync = require("../utils/catchAsync");
 //REVIEWS ROUTES:
 //-----------------------------------------------------------------------------------------------------------------
 //POST ROUTE: submitting a review on campground show page
-router.post("/", validateReview, catchAsync(async (req, res) => {
+router.post("/", validateReview, isLoggedIn, catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     const review = new Review(req.body.review);
+    review.author = req.user._id; //same as campgrounds  
     campground.reviews.push(review);
     await review.save();
     await campground.save();

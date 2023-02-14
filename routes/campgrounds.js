@@ -30,7 +30,7 @@ router.post("/", isLoggedIn, validateCampground, catchAsync(async (req, res, nex
     //If no body.req created and bootstrap form validation is bypassed:
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
     const campground = new Campground(req.body.campground);
-    campground.author = req.user._id;
+    campground.author = req.user._id; //same as reviews
     await campground.save();
     req.flash("success", "Campground Successfully Created!"); //flash smg("key" ,"message");
     res.redirect(`/campgrounds/${campground._id}`);
