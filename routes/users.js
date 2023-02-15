@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 
+// Imported Controllers:
+const users = require("../controllers/users");
+
+// Imported Models:
 const User = require("../models/user");
 
 const catchAsync = require("../utils/catchAsync");
@@ -10,9 +14,7 @@ const catchAsync = require("../utils/catchAsync");
 //USER ROUTES:
 //-----------------------------------------------------------------------------------------------------------------
 //GET ROUTE: serving a registration form:
-router.get("/register", (req, res) => {
-    res.render("./users/register");
-})
+router.get("/register", users.renderRegister);
 
 //POST ROUTE: creating a user on submission of registration form
 router.post("/register", catchAsync(async (req, res, next) => {
