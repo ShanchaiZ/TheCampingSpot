@@ -7,7 +7,7 @@ module.exports.renderRegister = (req, res) => {
     res.render("./users/register");
 }
 
-//POST ROUTE: creating a user on submission of registration form
+//POST ROUTE: Creating a user on submission of registration form
 module.exports.register = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
@@ -24,9 +24,28 @@ module.exports.register = async (req, res, next) => {
     }
 }
 
-
-//GET ROUTE: serving a login form:
+//GET ROUTE: Serving a login form:
 module.exports.renderLogin = (req, res) => {
     res.render("users/login");
 }
 
+
+//POST ROUTE: User Log in:
+module.exports.login = (req, res) => {
+    req.flash("success", "Welcome Back to TheCampingSpot");
+    const redirectURL = req.session.returnTo || "/campgrounds";
+    delete req.session.returnTo;
+    res.redirect(redirectURL);
+}
+
+
+//GET ROUTE: User Logout:
+module.exports.logout = function (req, res, next) {
+    req.logout(function (error) {
+        if (error) {
+            return next(error);
+        }
+        req.flash("success", "You have Successfully Logged out!")
+        res.redirect("/campgrounds");
+    })
+}

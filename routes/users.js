@@ -25,23 +25,10 @@ router.get("/login", users.renderLogin);
 
 
 //POST ROUTE: Creating a login using the login form:
-router.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), (req, res) => {
-    req.flash("success", "Welcome Back to TheCampingSpot");
-    const redirectURL = req.session.returnTo || "/campgrounds";
-    delete req.session.returnTo;
-    res.redirect(redirectURL);
-});
+router.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), users.login);
 
 
 //GET ROUTE: Logout:
-router.get("/logout", function (req, res, next) {
-    req.logout(function (error) {
-        if (error) {
-            return next(error);
-        }
-        req.flash("success", "You have Successfully Logged out!")
-        res.redirect("/campgrounds");
-    })
-})
+router.get("/logout", users.logout);
 
 module.exports = router;
