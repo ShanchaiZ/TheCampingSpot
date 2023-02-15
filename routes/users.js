@@ -17,27 +17,11 @@ const catchAsync = require("../utils/catchAsync");
 router.get("/register", users.renderRegister);
 
 //POST ROUTE: creating a user on submission of registration form
-router.post("/register", catchAsync(async (req, res, next) => {
-    try {
-        const { username, email, password } = req.body;
-        const user = new User({ email, username });
-        const registeredUser = await User.register(user, password);
-        req.login(registeredUser, err => { //passport helper that make user registration count as a login!
-            if (err) return next(err);
-            req.flash("success", "Welcome to TheCampingSpot");
-            res.redirect("/campgrounds");
-        });
-    } catch (e) {
-        req.flash("error", e.message);
-        res.redirect("register");
-    }
-}));
+router.post("/register", catchAsync(users.register));
 
 
 //GET ROUTE: serving a login form:
-router.get("/login", (req, res) => {
-    res.render("users/login");
-})
+router.get("/login", users.renderLogin);
 
 
 //POST ROUTE: Creating a login using the login form:
