@@ -15,16 +15,17 @@ const catchAsync = require("../utils/catchAsync");
 //CAMPGROUND MIDDLEWARE:(moved to middleware.js)
 //CAMPGROUND ROUTES:
 //-----------------------------------------------------------------------------------------------------------------
-//INDEX ROUTE: lists all the campgrounds available:
-router.get("/", catchAsync(campgrounds.index));
+
+router.route("/")
+    //INDEX ROUTE: lists all the campgrounds available:
+    .get(catchAsync(campgrounds.index))
+
+    //POST ROUTE: Where the form will be submitted after submitting the Form Creation
+    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground))
 
 
 //GET ROUTE: Form Creation
 router.get("/new", isLoggedIn, campgrounds.renderNewForm);
-
-
-//POST ROUTE: Where the form will be submitted after submitting the Form Creation
-router.post("/", isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
 
 
 //SHOW ROUTE: details of all campgrounds:
