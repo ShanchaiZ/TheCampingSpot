@@ -11,22 +11,24 @@ const User = require("../models/user");
 const catchAsync = require("../utils/catchAsync");
 
 
-//USER ROUTES:
+//USER ROUTES: 
 //-----------------------------------------------------------------------------------------------------------------
-//GET ROUTE: serving a registration form:
-router.get("/register", users.renderRegister);
+// Routes are prefixed by PORT/campgrounds...
 
-//POST ROUTE: creating a user on submission of registration form
-router.post("/register", catchAsync(users.register));
+//Registration Route:
+router.route("/register")
+    //GET ROUTE: serving a registration form:
+    .get(users.renderRegister)
+    //POST ROUTE: creating a user on submission of registration form
+    .post(catchAsync(users.register));
 
 
-//GET ROUTE: serving a login form:
-router.get("/login", users.renderLogin);
-
-
-//POST ROUTE: Creating a login using the login form:
-router.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), users.login);
-
+// Login Route:
+router.route("/login")
+    //GET ROUTE: serving a login form:
+    .get(users.renderLogin)
+    //POST ROUTE: Creating a login using the login form:
+    .post(passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), users.login);
 
 //GET ROUTE: Logout:
 router.get("/logout", users.logout);

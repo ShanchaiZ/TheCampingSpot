@@ -13,15 +13,16 @@ const Campground = require("../models/campground");
 const catchAsync = require("../utils/catchAsync");
 
 //CAMPGROUND MIDDLEWARE:(moved to middleware.js)
-//CAMPGROUND ROUTES:
+//CAMPGROUND ROUTES: 
 //-----------------------------------------------------------------------------------------------------------------
 
+// Routes are prefixed by PORT/campgrounds...
 router.route("/")
     //INDEX ROUTE: lists all the campgrounds available:
     .get(catchAsync(campgrounds.index))
 
     //POST ROUTE: Where the form will be submitted after submitting the Form Creation
-    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground))
+    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
 
 //GET ROUTE: Form Creation
 router.get("/new", isLoggedIn, campgrounds.renderNewForm);
@@ -35,7 +36,7 @@ router.route("/:id")
     .put(isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.updateCampground))
 
     //DELETE ROUTE: 
-    .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground))
+    .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
 
 
 //GET ROUTE: Updating Campgrounds: creating an Editing form
