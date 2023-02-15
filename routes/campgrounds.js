@@ -23,25 +23,23 @@ router.route("/")
     //POST ROUTE: Where the form will be submitted after submitting the Form Creation
     .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground))
 
-
 //GET ROUTE: Form Creation
 router.get("/new", isLoggedIn, campgrounds.renderNewForm);
 
 
-//SHOW ROUTE: details of all campgrounds:
-router.get("/:id", isLoggedIn, catchAsync(campgrounds.showCampground));
+router.route("/:id")
+    //SHOW ROUTE: All Details of A campgrounds:
+    .get(isLoggedIn, catchAsync(campgrounds.showCampground))
+
+    //PUT ROUTE: Updating Campgrounds After Submitting Editing form:
+    .put(isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.updateCampground))
+
+    //DELETE ROUTE: 
+    .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground))
 
 
 //GET ROUTE: Updating Campgrounds: creating an Editing form
 router.get("/:id/edit", isLoggedIn, isAuthor, catchAsync(campgrounds.renderEditCampground));
-
-
-//PUT ROUTE: Updating Campgrounds After Submitting Editing form:
-router.put("/:id", isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.updateCampground));
-
-
-//DELETE ROUTE: 
-router.delete("/:id", isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
 
 
 module.exports = router;

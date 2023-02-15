@@ -27,7 +27,7 @@ module.exports.createCampground = async (req, res, next) => {
 }
 
 
-//SHOW route: Details of all campgrounds
+//SHOW route: All Details of A campground:
 module.exports.showCampground = async (req, res) => {
     const campground = await Campground.findById(req.params.id).populate({
         path: "reviews", //nested populate
