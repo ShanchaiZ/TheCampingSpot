@@ -38,16 +38,33 @@
     <!-- REVIEW SECTION-->
     <div class="col-6">
         <% if (currentUser){%>
-        <h2>Leave A Review!</h2>
+        <h2>Leave A Review</h2>
         <form action="/campgrounds/<%= campground._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
             <!-- RATING SLIDER-->
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label class="form-label" for="rating">Rating</label>
                 <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+            </div> -->
+            <!-- STARABILITY STARS FOR REVIEWING -->
+            <div class="mb-3">
+                <fieldset class="starability-grow">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                        aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                </fieldset>
             </div>
             <!-- REVIEW TEXT BODY -->
             <div class="mb-3">
-                <label class="form-label" for="body">Review</label>
+                <label class="form-label" for="body">Enter Your Review Here:</label>
                 <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
                 <!-- Feedback Validation -->
                 <div class="valid-feedback">Great Description!</div>
@@ -59,9 +76,9 @@
         <% for(let review of campground.reviews) {%>
         <div class="card mb-3">
             <div class="card-body">
-                <!-- STARABILITY docs-->
+                <!-- STARABILITY STAR DISPLAY IN REVIEW-->
                 <p class="starability-result" data-rating="<%=review.rating%>">
-                    Rated: <%=review.rating%> Stars 
+                    Rated: <%=review.rating%> Stars
                 </p>
                 <h6 class="card-subtitle mb-2 text-muted">Written by: <%= review.author.username%></h6>
                 <p class="card-text">Review: <%=review.body%></p>
