@@ -7,6 +7,8 @@ Reviews: made associations between user rating and reviews with its campground. 
 then reorganized into routes and using express router.
 then added express sessions: to add flash messages (for error and sucessful actions)
 
+Refactoring:
+placed all the files and folders into the MVC structure.
 
 authentication:
 imported passport.js
@@ -14,18 +16,19 @@ created login of user
 associating their user authentication with their authorization.
 authorization include posting and deleting ONLY their reviews and campgrounds. thru association.
 
-
+features incorporated:
+* Starability => css library used to make star rating. used in show the show template.
 
 Basic set up of campground rating app that has CRUD infrastructure
 To-do:
 * majority of modeling info
-* styling
+* styling (starability)
 * User authentication  (using passport.js )
 * Reviews - 1 campground > many rating. In Future: 1 user > many campground > many rating?. also will need to delete ALL reviews once associated campground is deleted. 
 * maps
 * proper uploading of images
 * dealing with common security issues
-* refactoring and styling clean up!
+* refactoring and styling clean up (MVC)
 * deploying the app
 
 
