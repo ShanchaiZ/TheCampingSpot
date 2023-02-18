@@ -26,9 +26,9 @@ router.route("/")
 
     //POST ROUTE: Where the form will be submitted after submitting the Form Creation
     // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
-    .post(upload.single('image'), (req, res) => {
-        console.log(req.body, req.file);
-        res.send("Multer image uploading works!!!")
+    .post(upload.array('image'), (req, res) => {
+        console.log(req.body, req.files);
+        res.send("Multer MULTI image uploading works!!!");
     })
 
 //GET ROUTE: Form Creation
