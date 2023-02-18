@@ -3,6 +3,9 @@ const express = require("express");
 const router = express.Router();
 const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
 
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 //Imported Controllers:
 const campgrounds = require("../controllers/campgrounds");
 
@@ -22,7 +25,10 @@ router.route("/")
     .get(catchAsync(campgrounds.index))
 
     //POST ROUTE: Where the form will be submitted after submitting the Form Creation
-    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
+    // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
+        .post((req,res) =>{
+            res.send(req.body);
+        })
 
 //GET ROUTE: Form Creation
 router.get("/new", isLoggedIn, campgrounds.renderNewForm);
