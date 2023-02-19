@@ -8,7 +8,8 @@ then reorganized into routes and using express router.
 then added express sessions: to add flash messages (for error and sucessful actions)
 
 Refactoring:
-placed all the files and folders into the MVC structure. added .env file for image cloud uploading and API keys/secret security
+placed all the files and folders into the MVC structure. 
+Added .env file for image cloud uploading and API keys/secret security. This .env file is a zero-dependency module that loads environment variables from a .env file into process.env. Storing configuration in the environment separate from code. To enter the cloud credentials, this is the file you need to update! this file wont be seen/tracked on github for security but will be used in the app itself.
 
 authentication:
 imported passport.js
