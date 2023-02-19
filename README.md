@@ -8,7 +8,7 @@ then reorganized into routes and using express router.
 then added express sessions: to add flash messages (for error and sucessful actions)
 
 Refactoring:
-placed all the files and folders into the MVC structure.
+placed all the files and folders into the MVC structure. added .env file for image cloud uploading and API keys/secret security
 
 authentication:
 imported passport.js
