@@ -10,7 +10,7 @@ cloudinary.config({
 });
 
 
-//Set up the Storage Specifications in the cloudinary account:
+//Set up the Storage Object Specifications in the Cloudinary Account:
 const storage = new CloudinaryStorage({
     cloudinary,
     folder: "TheCampSpot",
