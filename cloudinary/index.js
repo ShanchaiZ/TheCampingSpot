@@ -13,8 +13,11 @@ cloudinary.config({
 //Set up the Storage Object Specifications in the Cloudinary Account:
 const storage = new CloudinaryStorage({
     cloudinary,
-    folder: "TheCampSpot",
-    allowedFormats: ["jpeg", "png", "jpg",]
+    params: {
+        folder: "TheCampSpot",
+        allowedFormats: ["jpeg", "png", "jpg",]
+    }
+
 });
 
 
