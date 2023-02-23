@@ -4,8 +4,8 @@
 <!-- CAMPGROUND SECTION -->
 <div class="row">
     <div class="col-6">
-        <!-- IMAGE CAROUSEL -->
-        <div id="carouselExample" class="carousel slide">
+        <!-- IMAGE CAROUSEL WITH CONTROLS-->
+        <div id="campgroundCarousel" class="carousel slide">
             <div class="carousel-inner">
                 <% campground.images.forEach((img, i) =>{%>
                 <div class="carousel-item <%= i === 0 ? 'active' : "" %>">
@@ -13,16 +13,20 @@
                 </div>
                 <% }) %>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <!-- Image Carousel if theres only 1 image = no controls -->
+            <% if (campground.images.length > 1) { %>
+            <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel"
+                data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel"
+                data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+            <% } %>
         </div>
-
         <div class="card mb-3">
             <!-- CAMPGROUND IMAGE TITLE AND DESCRIPTION -->
 
