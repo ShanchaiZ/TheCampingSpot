@@ -26,11 +26,8 @@ router.route("/")
     .get(catchAsync(campgrounds.index))
 
     //POST ROUTE: Where the form will be submitted after submitting the Form Creation
-    // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
-    .post(upload.array('image'), (req, res) => {
-        console.log(req.body, req.files);
-        res.send("Multer MULTI image uploading works!!!");
-    })
+    .post(isLoggedIn, upload.array("image"), validateCampground, catchAsync(campgrounds.createCampground));
+
 
 //GET ROUTE: Form Creation
 router.get("/new", isLoggedIn, campgrounds.renderNewForm);

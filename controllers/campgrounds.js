@@ -20,8 +20,10 @@ module.exports.createCampground = async (req, res, next) => {
     //If no body.req created and bootstrap form validation is bypassed:
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
     const campground = new Campground(req.body.campground);
+    campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     campground.author = req.user._id; //same as reviews
     await campground.save();
+    console.log(campground);
     req.flash("success", "Campground Successfully Created!"); //flash smg("key" ,"message");
     res.redirect(`/campgrounds/${campground._id}`);
 }
