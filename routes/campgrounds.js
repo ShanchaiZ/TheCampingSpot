@@ -38,7 +38,7 @@ router.route("/:id")
     .get(isLoggedIn, catchAsync(campgrounds.showCampground))
 
     //PUT ROUTE: Updating Campgrounds After Submitting Editing form:
-    .put(isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.updateCampground))
+    .put(isLoggedIn, isAuthor, upload.array("image"), validateCampground, catchAsync(campgrounds.updateCampground))
 
     //DELETE ROUTE: 
     .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
