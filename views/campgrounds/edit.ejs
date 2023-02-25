@@ -49,7 +49,12 @@
                     <div class="valid-feedback">Perfect!</div>
                 </div>
             </div>
-
+            <!-- DELETE EXISTING IMAGES -->
+            <div class="mb-3">
+                <% campground.images.forEach(function(img,i) { %>
+                <img src="<%= img.url %>" class="img-thumbnail" alt="">
+                <% }) %>
+            </div>
             <!-- SUBMIT BUTTON -->
             <div class="mb-3">
                 <button class="btn btn-info">Update Campground</button>
