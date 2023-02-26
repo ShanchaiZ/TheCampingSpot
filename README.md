@@ -19,6 +19,10 @@ authorization include posting and deleting ONLY their reviews and campgrounds. t
 
 features incorporated:
 * Starability => css library used to make star rating. used in show the show template.
+* image carousel to see uploaded images, image thumbnails in edit page and storing/deleting images on cloudinary
+
+
+
 
 Basic set up of campground rating app that has CRUD infrastructure
 To-do:
@@ -26,7 +30,7 @@ To-do:
 * styling (starability)
 * User authentication  (using passport.js )
 * Reviews - 1 campground > many rating. In Future: 1 user > many campground > many rating?. also will need to delete ALL reviews once associated campground is deleted. 
-* maps
+* maps (will use geocoding so user doesnt have to use lattitude/longtituge/coodinates) using mapbox
 * proper uploading of images
 * dealing with common security issues
 * refactoring and styling clean up (MVC)
