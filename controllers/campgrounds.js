@@ -29,8 +29,7 @@ module.exports.createCampground = async (req, res, next) => {
         query: "New York City, New York",
         limit: 1
     }).send();
-    console.log(geoData);
-    res.send("OK it works!")
+    res.send(geoData.body.features[0].geometry.coordinates);
 
     //If no body.req created and bootstrap form validation is bypassed:
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
