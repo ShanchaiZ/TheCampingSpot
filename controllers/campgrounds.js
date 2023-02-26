@@ -63,9 +63,15 @@ module.exports.updateCampground = async (req, res) => {
     console.log(req.body);
     //Title and location grouped in our forms we can use spread operator to find them. new : true => means that we see the updated results
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true }); // it is no longer good enough to find AND update at the same time. this step needs to be broken into 2 steps for protection: first find THEN UPDATE
-    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename })) 
-    campground.images.push(...imgs); 
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }))
+    campground.images.push(...imgs);
     await campground.save();
+
+    //Delete Images if there are images TO delete:
+    if (req.body.deleteImages) {
+        await campground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
+        console.log(campground);
+    }
     req.flash("success", "Campground Successfully Updated!");
     res.redirect(`/campgrounds/${campground._id}`);
 }
