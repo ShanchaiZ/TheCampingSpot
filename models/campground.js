@@ -2,14 +2,20 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema; //shortcut for referencing Mongoose.Schema for relationships
 const Review = require("./review");
 
+//Image Schema to make thumbnails:
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+})
+
+ImageSchema.virtual("thumbnail").get(function () {
+    return this.url.replace("/upload", "/upload/w_200");
+})
+
+//Campground Schema:
 const CampgroundSchema = new Schema({
     title: String,
-    images: [
-        {
-            url: String,
-            filename: String
-        }
-    ],
+    images: [ImageSchema],
     price: Number,
     description: String,
     location: String,
