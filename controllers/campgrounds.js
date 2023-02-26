@@ -1,5 +1,6 @@
 //Imported Models:
 const Campground = require("../models/campground");
+const { cloudinary } = require("../cloudinary");
 
 
 //GET Route: Lists/indexes All the Campgrounds Available
@@ -69,6 +70,9 @@ module.exports.updateCampground = async (req, res) => {
 
     //Delete Images if there are images TO delete:
     if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
         await campground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
         console.log(campground);
     }
