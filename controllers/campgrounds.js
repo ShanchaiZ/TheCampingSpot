@@ -1,8 +1,14 @@
-//Imported Models:
+//Imported Models and Dependencies:
 const Campground = require("../models/campground");
+
 const { cloudinary } = require("../cloudinary");
 
+//MapBox:
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding"); //the Geocoding services this app will use from the package
+const mapBoxToken = process.env.MAPBOX_TOKEN;  //token to access mapbox app
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken }); //Accesstoken is used here when initialize/instantiate a new mapbox Geocoding instance + also contains 2 modes (forward and reverse geocoding methods)
 
+//---------------------------------------------------------------------------------------------------------------------------------------------
 //GET Route: Lists/indexes All the Campgrounds Available
 module.exports.index = async (req, res) => {
     const campgrounds = await Campground.find({});
@@ -18,15 +24,24 @@ module.exports.renderNewForm = (req, res) => {
 
 //POST Route: Creation of A Campground After Campground Form Submission
 module.exports.createCampground = async (req, res, next) => {
+    //Using Geocoder Client:
+    const geoData = await geocoder.forwardGeocode({
+        query: "New York City, New York",
+        limit: 1
+    }).send();
+    console.log(geoData);
+    res.send("OK it works!")
+
     //If no body.req created and bootstrap form validation is bypassed:
     // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
-    const campground = new Campground(req.body.campground);
-    campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-    campground.author = req.user._id; //same as reviews
-    await campground.save();
-    console.log(campground);
-    req.flash("success", "Campground Successfully Created!"); //flash smg("key" ,"message");
-    res.redirect(`/campgrounds/${campground._id}`);
+
+    // const campground = new Campground(req.body.campground);
+    // campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    // campground.author = req.user._id; //same as reviews
+    // await campground.save();
+    // console.log(campground);
+    // req.flash("success", "Campground Successfully Created!"); //flash smg("key" ,"message");
+    // res.redirect(`/campgrounds/${campground._id}`);
 }
 
 
