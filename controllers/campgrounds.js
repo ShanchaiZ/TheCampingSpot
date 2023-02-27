@@ -29,18 +29,14 @@ module.exports.createCampground = async (req, res, next) => {
         query: req.body.campground.location,
         limit: 1
     }).send();
-    res.send(geoData.body.features[0].geometry.coordinates);
-
-    //If no body.req created and bootstrap form validation is bypassed:
-    // if (!req.body.campground) throw new ExpressError("Invalid Data for New Campground Creation", 400);
-
-    // const campground = new Campground(req.body.campground);
-    // campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-    // campground.author = req.user._id; //same as reviews
-    // await campground.save();
-    // console.log(campground);
-    // req.flash("success", "Campground Successfully Created!"); //flash smg("key" ,"message");
-    // res.redirect(`/campgrounds/${campground._id}`);
+    const campground = new Campground(req.body.campground);
+    campground.geometry = geoData.body.features[0].geometry; //locaation in GeoJson format added after creating a new campground
+    campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    campground.author = req.user._id; //same as reviews
+    await campground.save();
+    console.log(campground);
+    req.flash("success", "Campground Successfully Created!"); //flash smg("key" ,"message");
+    res.redirect(`/campgrounds/${campground._id}`);
 }
 
 
