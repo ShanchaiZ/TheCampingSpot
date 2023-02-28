@@ -45,19 +45,24 @@ const seedDB = async () => {
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             //Title of the location: from seedHelpers array  --> random sample descriptor 
             title: `${sample(descriptors)} ${sample(places)}`,
+            geometry: {
+                type: "Point",
+                coordinates: [-74.5, 40]
+            },
             images:
                 [
                     {
-                        url: 'https://res.cloudinary.com/bigcloudinthesky/image/upload/v1677166112/TheCampSpot/oexsb8i0sroyqv2ylune.jpg',
-                        filename: 'TheCampSpot/oexsb8i0sroyqv2ylune',
+                        url: 'https://res.cloudinary.com/bigcloudinthesky/image/upload/v1677166113/TheCampSpot/ywccbwigzp57bagnqaq9.jpg',
+                        filename: 'TheCampSpot/ywccbwigzp57bagnqaq9',
+
                     },
                     {
-                        url: 'https://res.cloudinary.com/bigcloudinthesky/image/upload/v1677166112/TheCampSpot/kvjgmtyycskxepqiatfd.jpg',
-                        filename: 'TheCampSpot/kvjgmtyycskxepqiatfd',
+                        url: 'https://res.cloudinary.com/bigcloudinthesky/image/upload/v1677166112/TheCampSpot/yc5byg8ectjmlqzduunq.jpg',
+                        filename: 'TheCampSpot/yc5byg8ectjmlqzduunq',
                     },
                     {
-                        url: 'https://res.cloudinary.com/bigcloudinthesky/image/upload/v1677166113/TheCampSpot/ohskyjxr2f4gljbfxo0g.jpg',
-                        filename: 'TheCampSpot/ohskyjxr2f4gljbfxo0g',
+                        url: 'https://res.cloudinary.com/bigcloudinthesky/image/upload/v1677166112/TheCampSpot/pcp8qardrbqokzfkew0e.jpg',
+                        filename: 'TheCampSpot/pcp8qardrbqokzfkew0e',
                     }
                 ],
             description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam voluptatum, odio sed explicabo ut, dignissimos, sit reiciendis dolores aspernatur ipsa placeat itaque ad error repudiandae repellendus rem natus!",
