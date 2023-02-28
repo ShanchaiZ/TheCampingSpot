@@ -4,10 +4,10 @@ mapboxgl.accessToken = mapToken; //mapToken variable found as a script on showpa
 const map = new mapboxgl.Map({
     container: 'map', // container ID needs to match the div id in "Map Display"
     style: 'mapbox://styles/mapbox/streets-v12', // style URL
-    center: [-74.5, 40], // starting position [longtitude, latitude]
+    center: campground.geometry.coordinates, // starting position [longtitude, latitude]
     zoom: 9, // starting zoom
 });
 
 new mapboxgl.Marker()
-    .setLngLat([-74.5, 40])
+    .setLngLat(campground.geometry.coordinates)
     .addTo(map);
