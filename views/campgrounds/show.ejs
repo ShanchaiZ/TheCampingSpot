@@ -4,6 +4,8 @@
 <!-- CAMPGROUND SECTION -->
 <div class="row">
     <div class="col-6">
+        <!-- MAP DISPLAY -->
+        <div id='map' style='width: 400px; height: 300px;'></div>
         <!-- IMAGE CAROUSEL WITH CONTROLS-->
         <div id="campgroundCarousel" class="carousel slide">
             <div class="carousel-inner">
@@ -115,3 +117,14 @@
         <% } %>
     </div>
 </div>
+
+<!-- Temp placement of Map Script -->
+<script>
+    mapboxgl.accessToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID needs to match the div id in "Map Display"
+        style: 'mapbox://styles/mapbox/streets-v12', // style URL
+        center: [-74.5, 40], // starting position [longtitude, latitude]
+        zoom: 9, // starting zoom
+    });
+</script>
