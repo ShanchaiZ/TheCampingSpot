@@ -122,5 +122,6 @@
 <!-- Map Token Reading From HTML template to JS -->
 <script>
     const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+    const campground = <%- JSON.stringify(campground) %>
 </script>
 <script src="/javascripts/showPageMap.js"></script>
