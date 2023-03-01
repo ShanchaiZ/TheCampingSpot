@@ -105,7 +105,7 @@ map.on('load', () => {
     // the location of the feature, with
     // description HTML from its properties.
     map.on('click', 'unclustered-point', (e) => {
-        const text = e.features[0].properties.popUpMarkup;
+        const { popUpMarkup } = e.features[0].properties;
         const coordinates = e.features[0].geometry.coordinates.slice();
 
         // Ensure that if the map is zoomed out such that
@@ -117,9 +117,7 @@ map.on('load', () => {
 
         new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(
-                text
-            )
+            .setHTML(popUpMarkup)
             .addTo(map);
     });
 

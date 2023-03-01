@@ -47,9 +47,11 @@ const CampgroundSchema = new Schema({
 
 
 //Nested Mongoose Virtual for making Campground Popups on ClusterMap with link that redirects to the clicked campground:
+//Note: GeoJSON and "this" refers to this particular campground instance
 CampgroundSchema.virtual("properties.popUpMarkup").get(function () {
-    return `<a href="/campgrounds/${this._id}" >${this.title}</a>` //Note: GeoJSON and "this" refers to this particular campground instance
-})
+    return `<strong><a href="/campgrounds/${this._id}" >${this.title}</a></strong>
+    <p>${this.description.substring(0, 20)}...</p>` 
+});
 
 //Mongoose Deletion Post Middleware: deletes reviews that are associated with the campground
 CampgroundSchema.post("findOneAndDelete", async function (doc) {
