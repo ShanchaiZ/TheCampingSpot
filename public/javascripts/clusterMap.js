@@ -31,26 +31,26 @@ map.on('load', () => {
         paint: {
             // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
             // with three steps to implement three types of circles:
-            //   * Blue, 20px circles when point count is less than 100
-            //   * Yellow, 30px circles when point count is between 100 and 750
-            //   * Pink, 40px circles when point count is greater than or equal to 750
+            //   a) green, 20px circles when point count is less than 10
+            //   b) orange, 30px circles when point count is between 10 and 30
+            //   c) yellow, 40px circles when point count is greater than or equal to 30
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
-                '#51bbd6',
-                100,
-                '#f1f075',
-                750,
-                '#f28cb1'
+                '#0061FF', //a)
+                10, //a)
+                '#E67E37', //b)
+                30, //b)
+                '#E3ED1A' //c)
             ],
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
-                20,
-                100,
-                30,
-                750,
-                40
+                15, // a) pixel width ...
+                10,//a) ..step // meaning anything below 10 campgrounds will be 20px
+                20,//b) pixel width ...
+                30,//b) ... step, meaning anything from 10 - 30 campgrounds will be 30px
+                25 //c) pixel width of anything above 30 campgrounds
             ]
         }
     });
