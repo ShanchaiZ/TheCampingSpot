@@ -12,7 +12,9 @@ ImageSchema.virtual("thumbnail").get(function () {
     return this.url.replace("/upload", "/upload/w_200");
 })
 
+
 //Campground Schema:
+const opts = { toJSON: { virtuals: true } }; // From mongoose Virtual Json docs to display virtuals
 const CampgroundSchema = new Schema({
     title: String,
     images: [ImageSchema],
@@ -41,8 +43,13 @@ const CampgroundSchema = new Schema({
             ref: "Review"
         }
     ]
-});
+}, opts);
 
+
+//Nested Mongoose Virtual for making Campground Popups on Map:
+CampgroundSchema.virtual("properties.popUpMarkup").get(function () {
+    return "THIS IS A POP UP TEXT!!"
+})
 
 //Mongoose Deletion Post Middleware: deletes reviews that are associated with the campground
 CampgroundSchema.post("findOneAndDelete", async function (doc) {
