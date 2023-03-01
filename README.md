@@ -19,22 +19,35 @@ authorization include posting and deleting ONLY their reviews and campgrounds. t
 
 features incorporated:
 * Starability => css library used to make star rating. used in show the show template.
-* image carousel to see uploaded images, image thumbnails in edit page and storing/deleting images on cloudinary
+* image carousel to see uploaded images, image thumbnails (stored as mongoose virtuals) in edit page and storing/deleting images on cloudinary
+
+Mapbox for map:
+* Basic map with a pin will use geocoding so user doesnt have to use lattitude/longtituge/coodinates using mapbox
+* a interactable cluster map that shows a collection of campgrounds that redirects to campground of choice using mongoose virtual popups
+
+
+
+Completed:
+* Full CRUD for campgrounds
+* 5 star rating system (library used: starability)
+* reviews
+* authentication (login) and authorization (cant delete/edit campgrounds that are not yours) (library used: passport.js)
+* Setting clientside(bootstrap), Serverside validation (JOI and using some built in mongoose validation)
+* storing all the campgrounds, users and reviews on MongoDB and connecting using mongoose.
+* image upload to cloud server (API used: cloudinary)
+* maps on show page, interactable clustermap of all campgrounds (API used: mapbox)
 
 
 
 
 Basic set up of campground rating app that has CRUD infrastructure
 To-do:
-* majority of modeling info
-* styling (starability)
-* User authentication  (using passport.js )
-* Reviews - 1 campground > many rating. In Future: 1 user > many campground > many rating?. also will need to delete ALL reviews once associated campground is deleted. 
-* maps (will use geocoding so user doesnt have to use lattitude/longtituge/coodinates) using mapbox
-* proper uploading of images
+
+* Styling:
+    * Home page landing, Login, Register form, adding map controls
 * dealing with common security issues
-* refactoring and styling clean up (MVC)
-* deploying the app
+* refactoring and styling clean up
+* deploying the app (using Render)
 
 
 
