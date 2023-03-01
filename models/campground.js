@@ -14,7 +14,7 @@ ImageSchema.virtual("thumbnail").get(function () {
 
 
 //Campground Schema:
-const opts = { toJSON: { virtuals: true } }; // From mongoose Virtual Json docs to display virtuals
+const opts = { toJSON: { virtuals: true } }; // From mongoose Virtual Json docs to display virtuals See note:
 const CampgroundSchema = new Schema({
     title: String,
     images: [ImageSchema],
@@ -48,7 +48,7 @@ const CampgroundSchema = new Schema({
 
 //Nested Mongoose Virtual for making Campground Popups on Map:
 CampgroundSchema.virtual("properties.popUpMarkup").get(function () {
-    return "THIS IS A POP UP TEXT!!"
+    return "THIS IS A POP UP TEXT!!" //Note: GeoJSON
 })
 
 //Mongoose Deletion Post Middleware: deletes reviews that are associated with the campground
