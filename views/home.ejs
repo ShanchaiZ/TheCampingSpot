@@ -11,12 +11,14 @@
     <link rel="stylesheet" href="/stylesheets/home.css">
 </head>
 
-<body class="d-flex h-100 text-center text-white bg-dark">
+
+<body class="d-flex text-center text-white bg-dark">
+    <!-- NAV BAR LINKS -->
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="mb-auto">
             <div>
-                <h3 class="float-md-left mb-0">TheCampingSpot</h3>
-                <nav class="nav nav-masthead justify-content-center float-md-right">
+                <h3 class="float-md-start mb-0">TheCampingSpot</h3>
+                <nav class="nav nav-masthead justify-content-center float-md-end">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="/campgrounds">Campgrounds</a>
                     <% if(!currentUser) { %>
@@ -29,7 +31,23 @@
             </div>
         </header>
 
+        <!-- MAIN CONTENT -->
+        <main class="px-3">
+            <h1>TheCampingSpot</h1>
+            <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis recusandae deserunt
+                voluptatum quidem minus incidunt commodi voluptates, est explicabo quaerat tempore odio magni nobis
+                eveniet corrupti mollitia sit voluptatem reprehenderit eligendi distinctio eius! Voluptate, quam
+                consequatur? Magnam architecto in illo maiores neque! Voluptas debitis natus nam quo pariatur reiciendis
+                earum.</p>
+            <a href="/campgrounds" class="btn btn-lg btn-secondary font-weight-bold text-white bg-white">View
+                Campgrounds</a>
+        </main>
 
+
+        <!-- FOOTER -->
+        <footer class="mt-auto text-white-50">
+            <span class="text-light"> &copy; TheCampingSpot 2022</span>
+        </footer>
     </div>
 
 
