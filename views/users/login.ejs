@@ -4,14 +4,18 @@
     <div class="row">
         <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
             <div class="card shadow">
+                <!-- Login Image -->
+                <img src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                    alt="" class="card-img-top">
                 <div class="card-body">
+                    <!-- LOGIN FORM -->
                     <h5 class="card-title">Login</h5>
                     <form action="/login" method="POST" class="validated-form" novalidate>
                         <!-- Username Field -->
                         <div class="mb-3">
                             <label class="form-label" for="username">Username</label>
                             <input class="form-control" type="text" id="username" name="username"
-                                placeholder="Enter A Username" required>
+                                placeholder="Enter A Username" autofocus required>
                             <!-- Feedback Validation -->
                             <div class="valid-feedback">Good Stuff!</div>
                         </div>
@@ -24,7 +28,10 @@
                             <!-- Feedback Validation -->
                             <div class="valid-feedback">Fantastic!</div>
                         </div>
-                        <button class="btn btn-success">Login</button>
+                        <!-- Submit Button -->
+                        <div class="d-grid">              
+                            <button class="btn btn-success">Login</button>            
+                        </div>
                     </form>
                 </div>
             </div>
