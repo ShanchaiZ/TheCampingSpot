@@ -8,6 +8,9 @@ const map = new mapboxgl.Map({
     zoom: 3
 });
 
+// Add zoom and rotation controls to the map. Defaults to top-right:
+map.addControl(new mapboxgl.NavigationControl());
+
 //ClusterMap functions on load:
 map.on('load', () => {
     // Add a new source from our GeoJSON data and
