@@ -4,8 +4,6 @@
 <!-- CAMPGROUND SECTION -->
 <div class="row">
     <div class="col-6">
-        <!-- MAP DISPLAY -->
-        <div id='map' style='width: 400px; height: 300px;'></div>
         <!-- IMAGE CAROUSEL WITH CONTROLS-->
         <div id="campgroundCarousel" class="carousel slide">
             <div class="carousel-inner">
@@ -62,6 +60,9 @@
 
     <!-- REVIEW SECTION-->
     <div class="col-6">
+        <!-- MAP DISPLAY -->
+        <div id="map"></div>
+        <!-- REVIEW SECTION -->
         <% if (currentUser){%>
         <h2>Leave A Review</h2>
         <form action="/campgrounds/<%= campground._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
