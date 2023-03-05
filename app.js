@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV !=="production"){
+if (process.env.NODE_ENV !== "production") {
     require("dotenv").config();
 }
 console.log(process.env.SECRET);
@@ -27,6 +27,11 @@ const User = require("./models/user");
 const userRoutes = require("./routes/users");
 const campgroundsRoutes = require("./routes/campgrounds");
 const reviewsRoutes = require("./routes/reviews");
+
+
+//Securities:
+const mongoSanitize = require('express-mongo-sanitize');
+
 
 //Imported Error Handling Utilities:
 const catchAsync = require("./utils/catchAsync");
@@ -62,6 +67,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true })); //req.body parser!
 app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE in addition to GET/POST!
 app.use(express.static(path.join(__dirname, "public")));
+app.use(mongoSanitize());//Sanitizes the requests of prohibitive characters in req.body, req.params, req.query
 
 const sessionConfig = {
     secret: "testingsecret!",
@@ -89,7 +95,7 @@ passport.deserializeUser(User.deserializeUser());//explain: tells passport how t
 
 //Flashing messages:
 app.use((req, res, next) => {
-    // console.log(req.session);
+    console.log(req.query);
     res.locals.currentUser = req.user;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
