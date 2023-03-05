@@ -5,7 +5,9 @@
             <div class="alert alert-danger" role="alert">
                 <h4 class="alert-heading"><%=err.statusCode%> <%=err.message%></h4>
                 <hr>
+                <% if (process.env.NODE_ENV !== "production") { %>
                 <p class="col-6"><%= err.stack %></p>
+                <% } %>
             </div>
         </div>
     </div>
