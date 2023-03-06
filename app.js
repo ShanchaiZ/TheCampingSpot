@@ -28,6 +28,7 @@ const reviewsRoutes = require("./routes/reviews");
 
 //Securities:
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require("helmet");
 
 
 //Imported Error Handling Utilities:
@@ -83,7 +84,62 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-//passport configuration:
+
+//Helmet Configuration:
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net/",
+    "https://res.cloudinary.com/bigcloudinthesky/" //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+    "https://cdn.jsdelivr.net/",
+    "https://res.cloudinary.com/bigcloudinthesky/" //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+];
+const connectSrcUrls = [
+    "https://*.tiles.mapbox.com",
+    "https://api.mapbox.com",
+    "https://events.mapbox.com",
+    "https://res.cloudinary.com/bigcloudinthesky/"
+];
+const fontSrcUrls = ["https://res.cloudinary.com/bigcloudinthesky/"]; //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/bigcloudinthesky/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+                "https://images.unsplash.com/"
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+            mediaSrc: ["https://res.cloudinary.com/bigcloudinthesky/"], //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+            childSrc: ["blob:"]
+        }
+    })
+);
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Passport Configuration:
 app.use(passport.initialize());
 app.use(passport.session()); //needed for persistent login sessions and passport.session NEEDS to be after session().
 passport.use(new LocalStrategy(User.authenticate()));
@@ -92,7 +148,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());//explain: tells passport how to serialize a user. Serialize a user refers to "how do we store a user in a session?" and "how do we get a user out of that session?"
 
 
-//Flashing messages:
+//Flashing Messages:
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash("success");
@@ -100,7 +156,7 @@ app.use((req, res, next) => {
     next();
 });
 
-//middleware routes:
+//Middleware routes:
 app.use("/campgrounds", campgroundsRoutes);
 app.use("/campgrounds/:id/reviews", reviewsRoutes);
 app.use("/", userRoutes);
