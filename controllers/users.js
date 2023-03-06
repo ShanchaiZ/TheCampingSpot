@@ -26,6 +26,9 @@ module.exports.register = async (req, res, next) => {
 
 //GET ROUTE: Serving a login form:
 module.exports.renderLogin = (req, res) => {
+    if(req.query.returnTo) {
+        req.session.returnTo = req.query.returnTo;
+    }
     res.render("users/login");
 }
 
@@ -33,8 +36,7 @@ module.exports.renderLogin = (req, res) => {
 //POST ROUTE: User Log in:
 module.exports.login = (req, res) => {
     req.flash("success", "Welcome Back to TheCampingSpot");
-    const redirectURL = req.session.returnTo || "/campgrounds";
-    delete req.session.returnTo;
+    const redirectURL = res.locals.returnTo || "/campgrounds";
     res.redirect(redirectURL);
 }
 

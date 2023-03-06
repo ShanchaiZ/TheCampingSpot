@@ -97,6 +97,8 @@
             </div>
             <button class="btn btn-success">Submit</button>
         </form>
+        <% } else { %>
+        <a href="/login?returnTo=/campgrounds/<%= campground._id %>" class="btn btn-lg btn-primary">Leave a Review</a>
         <% } %>
         <!-- DISPLAY RATING AND REVIEWS-->
         <% for(let review of campground.reviews) {%>

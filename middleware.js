@@ -67,3 +67,12 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     }
     next();
 }
+
+
+//Checking to see if user been redirected from another page:
+module.exports.checkReturnTo = (req,res, next) => {
+    if (req.session.returnTo) {
+        res.locals.returnTo = req.session.returnTo;
+    }
+    next();
+}

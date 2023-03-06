@@ -4,6 +4,7 @@ const passport = require("passport");
 
 // Imported Controllers:
 const users = require("../controllers/users");
+const { checkReturnTo } = require("../middleware");
 
 // Imported Models:
 const User = require("../models/user");
@@ -28,7 +29,7 @@ router.route("/login")
     //GET ROUTE: serving a login form:
     .get(users.renderLogin)
     //POST ROUTE: Creating a login using the login form:
-    .post(passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), users.login);
+    .post(checkReturnTo, passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), users.login);
 
 //GET ROUTE: Logout:
 router.get("/logout", users.logout);
