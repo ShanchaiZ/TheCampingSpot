@@ -26,7 +26,6 @@ Mapbox for map:
 * a interactable cluster map that shows a collection of campgrounds that redirects to campground of choice using mongoose virtual popups
 
 
-
 Completed:
 * Full CRUD for campgrounds
 * 5 star rating system (library used: starability)
@@ -37,6 +36,11 @@ Completed:
 * image upload to cloud server (API used: cloudinary)
 * maps on show page, interactable clustermap of all campgrounds (API used: mapbox)
 
+Prevent Common Issues:
+* protecting headers with Helmet
+* securing cookies
+* Sanitizing htmls
+* Creating serverside validator extensions 
 
 
 

@@ -38,6 +38,11 @@ const { title } = require("process");
 const campground = require("./models/campground");
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Connection to mongoDB Atlas connection: enable the line below:
+// const dbURL = process.env.DB_URL;
+
+
 //Importing Mongoose:
 mongoose.set('strictQuery', false); // Mongodb warning that returns an error if the collection does not exist
 mongoose.connect("mongodb://127.0.0.1:27017/TheCampingSpot", {
