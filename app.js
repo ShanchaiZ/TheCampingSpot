@@ -76,7 +76,7 @@ app.use(mongoSanitize());//Sanitizes the requests of prohibitive characters in r
 
 
 //Changed Session Storage from local memory to MongoDB:
-const secret = process.env.SECRET;
+const secret = process.env.SECRET || "testingsecret";
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
