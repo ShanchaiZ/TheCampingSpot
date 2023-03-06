@@ -43,7 +43,7 @@ const campground = require("./models/campground");
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 //To Connect to MongoDB Atlas replace the localhost in dbURL with "process.env.DB_URL";
-const dbUrl = "mongodb://127.0.0.1:27017/TheCampingSpot";
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/TheCampingSpot";
 
 //Importing Mongoose:
 mongoose.set('strictQuery', false); // Mongodb warning that returns an error if the collection does not exist
@@ -76,9 +76,11 @@ app.use(mongoSanitize());//Sanitizes the requests of prohibitive characters in r
 
 
 //Changed Session Storage from local memory to MongoDB:
+const secret = process.env.SECRET;
+
 const store = MongoStore.create({
     mongoUrl: dbUrl,
-    secret: "testingsecret!",
+    secret,
     touchAfter: 24 * 60 * 60
 })
 
@@ -87,9 +89,9 @@ store.on("error", function (e) {
 })
 
 const sessionConfig = {
-    store: store,
+    store,
     name: "campingSession", //Name of the cookie over defaulted name
-    secret: "testingsecret!",
+    secret,
     resave: false, //as indicated by express-session docs
     saveUninitialized: true, //as indicated by express-session docs
     // store: xyz //In the future it will be a mongo store. Currently we will be using the memory store (only used for dev purposes!)
@@ -225,6 +227,8 @@ app.use((err, req, res, next) => {
 
 // APP IS LISTENING ON PORT:
 //=============================================================================================
-app.listen(3001, () => {
-    console.log("APP IS LISTENING ON PORT 3001!")
+const port = process.env.PORT || 3001;
+
+app.listen(port, () => {
+    console.log(`App is listening on http://localhost:${port}`)
 });
