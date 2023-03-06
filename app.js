@@ -26,6 +26,9 @@ const campgroundsRoutes = require("./routes/campgrounds");
 const reviewsRoutes = require("./routes/reviews");
 
 
+// Mongo Connection:
+const MongoStore = require("connect-mongo");
+
 //Securities:
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require("helmet");
@@ -39,13 +42,12 @@ const campground = require("./models/campground");
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Connection to mongoDB Atlas connection: enable the line below:
-// const dbURL = process.env.DB_URL;
-
+//To Connect to MongoDB Atlas replace the localhost in dbURL with "process.env.DB_URL";
+const dbUrl = "mongodb://127.0.0.1:27017/TheCampingSpot";
 
 //Importing Mongoose:
 mongoose.set('strictQuery', false); // Mongodb warning that returns an error if the collection does not exist
-mongoose.connect("mongodb://127.0.0.1:27017/TheCampingSpot", {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -72,7 +74,20 @@ app.use(methodOverride("_method"));//Allows submission forms to PUT/PATCH/DELETE
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());//Sanitizes the requests of prohibitive characters in req.body, req.params, req.query
 
+
+//Changed Session Storage from local memory to MongoDB:
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    secret: "testingsecret!",
+    touchAfter: 24 * 60 * 60
+})
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR!!", e)
+})
+
 const sessionConfig = {
+    store: store,
     name: "campingSession", //Name of the cookie over defaulted name
     secret: "testingsecret!",
     resave: false, //as indicated by express-session docs
@@ -84,8 +99,8 @@ const sessionConfig = {
         expires: Date.now() + (1000 * 60 * 60 * 24 * 7), //Number of milliseconds in 1 week is how long cookie will last
         maxAge: (1000 * 60 * 60 * 24 * 7)
     }
-
 }
+
 app.use(session(sessionConfig));
 app.use(flash());
 
