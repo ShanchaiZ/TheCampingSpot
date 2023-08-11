@@ -1,6 +1,7 @@
 ![theCampingSpotBanner](./public/campgroundScreenshots/theCampingSpotBanner.png)
 # TheCampingSpot
 
+<!-- Badges -->
 ![Static Badge](https://img.shields.io/badge/Language%20-%20JavaScript-blue)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![Static Badge](https://img.shields.io/badge/CSS%20-%20Bootstrap%20-%20purple)
@@ -91,7 +92,6 @@ After installing the necessary dependencies, type "npm start" in your terminal w
 
 ### Edit a Campground Form:
 ![editPage](./public/campgroundScreenshots/editCampgroundForm.jpg)
-
 
 
 #  Technologies Used
