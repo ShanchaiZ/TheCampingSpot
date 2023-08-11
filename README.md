@@ -1,6 +1,16 @@
+![theCampingSpotBanner](./public/campgroundScreenshots/theCampingSpotBanner.png)
 # TheCampingSpot
 
+![Static Badge](https://img.shields.io/badge/Language%20-%20JavaScript-blue)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![Static Badge](https://img.shields.io/badge/CSS%20-%20Bootstrap%20-%20purple)
+![Static Badge](https://img.shields.io/badge/%20-%20node.js-green)
+![Static Badge](https://img.shields.io/badge/express.js%20-%20brightgreen)
+![Static Badge](https://img.shields.io/badge/Image%20Storage-%20Cloudinary%20API%20-%20blue)
+![Static Badge](https://img.shields.io/badge/Map%20and%20Location-%20Mapbox%20API%20-%20navy)
+![Static Badge](https://img.shields.io/badge/Deployment-%20Render.com%20-%20skyblue)
+![Static Badge](https://img.shields.io/badge/Version%20Control-%20Github-%20black)
+
 ## Description
 A FullStack Application where users can login/register to share their camping experiences by creating, viewing, updating, uploading images, and deleting their campgrounds while leaving a star rating and review.
 
@@ -62,19 +72,26 @@ After installing the necessary dependencies, type "npm start" in your terminal w
 ## Screenshots:
 
 ### Landing Page:
-![Landing homepage](./public/images/app1.png)
+![landingPage](./public/campgroundScreenshots/landingPage.jpg)
 
 ### Register Form:
+![registerForm](./public/campgroundScreenshots/registerForm.jpg)
 
 ### Login Form:
+![loginForm](./public/campgroundScreenshots/loginForm.jpg)
 
-### Index Page:
+### Campground Index Page with ClusterMap:
+![indexPage](./public/campgroundScreenshots/campgroundIndexMap.jpg)
 
-### Display a Campground Page:
+### Display Campground Details Page with Review:
+![displayCampground](./public/campgroundScreenshots/campgroundDetailsReview.jpg)
 
 ### Create a Campground Form:
+![createPage](./public/campgroundScreenshots/newCampgroundForm.jpg)
 
-### Edit a Campground:
+### Edit a Campground Form:
+![editPage](./public/campgroundScreenshots/editCampgroundForm.jpg)
+
 
 
 #  Technologies Used
