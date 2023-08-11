@@ -1,14 +1,12 @@
 # TheCampingSpot
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ## Description
 A FullStack Application where users can login/register to share their camping experiences by creating, viewing, updating, uploading images, and deleting their campgrounds while leaving a star rating and review.
 
 > Github Repository Link: [https://github.com/ShanchaiZ/TheCampingSpot](https://github.com/ShanchaiZ/TheCampingSpot)
 
 > Deployed App (Render) Link: [Click to Begin Your Camping Adventure!](https://thecampingspot-kcqj.onrender.com)
-
 
 ## Table of Contents
 
